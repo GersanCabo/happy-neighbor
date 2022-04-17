@@ -1,4 +1,6 @@
 <?php 
+    require_once(realpath($_SERVER['DOCUMENT_ROOT']).'/PHP/happy_neighbor/model/class/Utilities.php');
+
     class User {
 
         const REG_EXPR_STRING_WITH_SPACES = '/^[\w]+( [\w]+)*$/';
@@ -37,8 +39,8 @@
 
         private array $attributes = [];
 
-        public function __construct($id, $name_user, $last_name, $mail, $pass_user, $profile_picture, $biography) {
-            if ($id > 0 && $this->validateString(
+        public function __construct(int $id, string $name_user, $last_name, string $mail, string $pass_user, $profile_picture, $biography) {
+            if ($id > 0 && Utilities::validateString(
                     [$name_user, self::STRINGS_TO_VERIFY['name_user'][0], self::STRINGS_TO_VERIFY['name_user'][1], self::STRINGS_TO_VERIFY['name_user'][2], self::STRINGS_TO_VERIFY['name_user'][3]],
                     [$last_name, self::STRINGS_TO_VERIFY['last_name'][0], self::STRINGS_TO_VERIFY['last_name'][1], self::STRINGS_TO_VERIFY['last_name'][2], self::STRINGS_TO_VERIFY['last_name'][3]],
                     [$mail, self::STRINGS_TO_VERIFY['mail'][0], self::STRINGS_TO_VERIFY['mail'][1], self::STRINGS_TO_VERIFY['mail'][2], self::STRINGS_TO_VERIFY['mail'][3]],
@@ -91,55 +93,12 @@
          * @param mixed $value attribute value
          */
         public function __set(string $attribute, $value) {
-            if($this->validateSetter($attribute, $value)) {
+            if(Utilities::validateSetter($attribute, $value, self::STRINGS_TO_VERIFY)) {
                 if ($attribute == "pass_user") {
                     password_hash($value,PASSWORD_BCRYPT);
                 }
                 $this->attributes[$attribute] = $value;
             }
         }
-
-        /**
-         * Validate setter value
-         * 
-         * @param string $attribute attribute name
-         * @param mixed $value attribute value
-         * @return boolean is a correct value
-         */
-        private function validateSetter(string $attribute, $value) {
-            $isValueCorrect = true;
-            $arrayParameters = [];
-            if (array_key_exists($attribute, self::STRINGS_TO_VERIFY)) {
-                $arrayParameters = self::STRINGS_TO_VERIFY[$attribute];
-                array_unshift($arrayParameters, $value);
-            }
-            if ( ($attribute == 'id' && $value <= 0) || !( $this->validateString($arrayParameters) ) ) {
-                $isValueCorrect = false;
-            }
-            return $isValueCorrect;
-        }
-
-        /**
-         * Validate string is correct
-         * 
-         * @param mixed ...$listStringsToValidate many arrays with value attribute[0], 
-         * regular expression[1], max length[2], min length[3] and if the value can be null[4]
-         * @return boolean is a correct value
-         */
-        private function validateString(...$listStringsToValidate): bool {
-            if (count($listStringsToValidate) > 0) {
-                foreach ($listStringsToValidate as $stringToValidate) {
-                    if ($stringToValidate[0] == null) {
-                        if ($stringToValidate[4]) {
-                            return false;
-                        }
-                    } else if (!(preg_match($stringToValidate[1],$stringToValidate[0])) || (strlen($stringToValidate[0]) > $stringToValidate[2] && strlen($stringToValidate[0]) < $stringToValidate[3])) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
     }
 ?>

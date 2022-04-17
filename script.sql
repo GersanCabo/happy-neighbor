@@ -13,7 +13,8 @@ CREATE TABLE user (
     pass_user VARCHAR(100) NOT NULL,
     profile_picture BLOB,
     biography VARCHAR(300),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (mail)
 );
 
 CREATE TABLE community (
@@ -81,3 +82,25 @@ CREATE TABLE cash_flow_community (
     PRIMARY KEY (id),
     FOREIGN KEY (id_community) REFERENCES community(id)
 );
+
+CREATE UNIQUE INDEX login_mail ON user(mail);
+
+delimiter $$
+CREATE TRIGGER user_community_delete_when_user_delete 
+    BEFORE DELETE  
+    ON user 
+    FOR EACH ROW
+BEGIN
+    DELETE FROM user_community WHERE id_user=OLD.id;
+END; $$
+delimiter ;
+
+-- Inserciones de prueba
+
+INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$ANn0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
+
+INSERT INTO community (id, name_community,total_money) VALUES (1, 'community', 10.2);
+INSERT INTO community (id, name_community,total_money) VALUES (2, 'community2', 11.2);
+
+INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,1,false);
+INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,2,false);

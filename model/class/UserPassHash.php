@@ -3,7 +3,7 @@
 
         private array $attributes = [];
 
-        public function __construct($id, $name_user, $last_name, $mail, $pass_user, $profile_picture, $biography) {
+        public function __construct(int $id, string $name_user, $last_name, string $mail, string $pass_user, $profile_picture, $biography) {
                 $this->attributes['id'] = $id;
                 $this->attributes['name_user'] = $name_user;
                 $this->attributes['last_name'] = $last_name;

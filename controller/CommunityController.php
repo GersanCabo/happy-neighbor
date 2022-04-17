@@ -1,7 +1,6 @@
 <?php 
-    require_once("../model/class/User.php");
-    require_once("../model/class/UserPassHash.php");
-    require_once("../model/crud/UserCRUD.php");
+    require_once("../model/class/Community.php");
+    require_once("../model/crud/CommunityCRUD.php");
 
     /**
      * Show a JSON according to the value of a bool
@@ -17,19 +16,18 @@
     }
 
     /**
-     * Insert a user in the table
+     * Insert a community in the table
      */
     function insert() {
-        $user = new User(
-            1,
-            $_POST['name_user'],
-            $_POST['last_name'],
-            $_POST['mail'],
-            $_POST['pass_user'],
-            $_POST['profile_picture'],
-            $_POST['biography']
-        );
-        sendJsonSucess(UserCRUD::insert($user));
+        if ($_POST['user_creator']) {
+            $community = new Community(
+                1,
+                $_POST['name_community'],
+                $_POST['description_community'],
+                $_POST['total_money']
+            );
+            sendJsonSucess(CommunityCRUD::insert($community));
+        }
     }
 
     /**
