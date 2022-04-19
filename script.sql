@@ -86,11 +86,12 @@ CREATE TABLE cash_flow_community (
 );
 
 CREATE TABLE session_token (
-    token VARCHAR(100) NOT NULL AUTO_INCREMENT,
-    expired_date TIMESTAMP DEFAULT (CURRENT_TIMESTAMP() + 86400),
+    token VARCHAR(100) NOT NULL,
+    expired_date TIMESTAMP DEFAULT (CURRENT_TIMESTAMP() + 999999),
     id_user INT NOT NULL,
     PRIMARY KEY (token),
-    FOREIGN KEY (id_user) REFERENCES user(id)
+    FOREIGN KEY (id_user) REFERENCES user(id),
+    UNIQUE (id_user)
 );
 
 CREATE UNIQUE INDEX login_mail ON user(mail);

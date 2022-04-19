@@ -113,31 +113,46 @@
         }
 
         /**
-         * Search a user by email and return the password hash
+         * Search a user by email, validate the password and return a session token
          * 
          * @param string $mail user mail (Unique in table)
-         * @return string user password hash
+         * @param string $passUser password to validate against the hash
+         * @return mixed new user session token in db or false
          */
         public static function login(string $mail, string $passUser) {
             $db = Db::connect();
             $tokenToSend = false;
-            $result = $db -> query("SELECT id,pass_user FROM user WHERE mail='$mail'");
-            $arrayPass = $result -> fetch(PDO::FETCH_ASSOC);
+            $resultSelect = $db -> query("SELECT id,pass_user FROM user WHERE mail='$mail'");
+            $arrayPass = $resultSelect -> fetch(PDO::FETCH_ASSOC);
             $isPassCorrect = password_verify($passUser, $arrayPass['pass_user']);
             if ($isPassCorrect) {
                 $newToken = self::generateToken($mail);
-                $insertSentence = $db -> prepare("INSERT INTO session_token (token, )");
-                $result = $insertSentence->execute();
+                $dropSentence = $db -> prepare("DELETE FROM session_token WHERE id_user=" . $arrayPass['id'] . ";");
+                $isDroped = $dropSentence->execute();
+                if ($isDroped) {
+                    $insertSentence = $db -> prepare("INSERT INTO session_token VALUES ('$newToken',null," . $arrayPass['id'] . ");");
+                    $isInserted = $insertSentence->execute();
+                    if ($isInserted) {
+                        $tokenToSend = $newToken;
+                    }
+                }
             }
             return $tokenToSend;
         }
 
-        private static function generateToken(string $mail, int $lengthToken = 20) {
+        /**
+         * Generate a user token session
+         * 
+         * @param string $mail user mail
+         * @param int $lengthToken length of the token to generate, <10
+         * @return string new user session token
+         */
+        private static function generateToken(string $mail, int $lengthToken = 15) {
             if ($lengthToken < 10) {
                 $lengthToken = 10;
             }
             $date = new DateTime();
-            return bin2hex(random_bytes(($lengthToken - ($lengthToken % 2)) / 2)) . "-" . strval($date->getTimestamp()) . "-" . $mail;
+            return bin2hex(random_bytes(($lengthToken - ($lengthToken % 2)) / 2)) . "-" . $mail;
         }
 
         /**
@@ -149,7 +164,7 @@
         public static function selectUserCommunities(int $idUser) {
             $communities = [];
             $db = Db::connect();
-            $communitiesUser = $db -> query("SELECT id_community, is_admin FROM user_community WHERE id_user=$idUser");
+            $communitiesUser = $db -> query("SELECT id_community, is_admin FROM user_community WHERE id_user=$idUser;");
             while ($community = $communitiesUser -> fetch(PDO::FETCH_ASSOC)) {
                 $communities[] = [$community['id_community'],$community['is_admin']];
             }

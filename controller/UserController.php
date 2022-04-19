@@ -72,8 +72,7 @@
         $email = $_POST['mail'];
         $passUser = $_POST['pass_user'];
         $token = UserCRUD::login($email, $passUser);
-        //$result = password_verify($_POST['pass_user'], $passDb);
-        echo $token; //JSON please
+        echo json_encode($token);
     }
 
     /**
