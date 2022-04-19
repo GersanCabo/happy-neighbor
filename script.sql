@@ -22,8 +22,10 @@ CREATE TABLE community (
     name_community VARCHAR(50) NOT NULL,
     description_community VARCHAR(300),
     total_money FLOAT(9,2),
+    user_creator_id INT NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_creator_id) REFERENCES user(id)
 );
 
 CREATE TABLE user_community (
@@ -83,6 +85,14 @@ CREATE TABLE cash_flow_community (
     FOREIGN KEY (id_community) REFERENCES community(id)
 );
 
+CREATE TABLE session_token (
+    token VARCHAR(100) NOT NULL AUTO_INCREMENT,
+    expired_date TIMESTAMP DEFAULT (CURRENT_TIMESTAMP() + 86400),
+    id_user INT NOT NULL,
+    PRIMARY KEY (token),
+    FOREIGN KEY (id_user) REFERENCES user(id)
+);
+
 CREATE UNIQUE INDEX login_mail ON user(mail);
 
 delimiter $$
@@ -99,8 +109,8 @@ delimiter ;
 
 INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$ANn0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
 
-INSERT INTO community (id, name_community,total_money) VALUES (1, 'community', 10.2);
-INSERT INTO community (id, name_community,total_money) VALUES (2, 'community2', 11.2);
+INSERT INTO community (id, name_community,total_money,user_creator_id) VALUES (1, 'community', 10.2, 1);
+INSERT INTO community (id, name_community,total_money,user_creator_id) VALUES (2, 'community2', 11.2, 1);
 
 INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,1,false);
 INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,2,false);

@@ -10,9 +10,9 @@
      */
     function sendJsonSucess(bool $result) {
         if ($result) {
-            echo json_encode(["success" => 1]);
+            echo json_encode(1);
         } else {
-            echo json_encode(["success" => 0]);
+            echo json_encode(0);
         }
     }
 
@@ -70,9 +70,10 @@
      */
     function login() {
         $email = $_POST['mail'];
-        $passDb = UserCRUD::login($email);
-        $result = password_verify($_POST['pass_user'], $passDb);
-        echo $result;
+        $passUser = $_POST['pass_user'];
+        $token = UserCRUD::login($email, $passUser);
+        //$result = password_verify($_POST['pass_user'], $passDb);
+        echo $token; //JSON please
     }
 
     /**

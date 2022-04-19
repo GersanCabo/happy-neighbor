@@ -3,6 +3,12 @@
 
     class UserCRUD {
 
+        private const NOT_NULL_PARAMETERS = [
+            'name_user',
+            'mail',
+            'pass_user'
+        ];
+
         public function __construct() {}
 
         /**
@@ -12,10 +18,21 @@
          * @return bool if the user is inserted or not
          */
         public static function insert(User $user):bool {
+            $result = false;
             $db = Db::connect();
+            $isPossibleInsertUser = true;
             $attributes = $user -> getAttributes();
-            $insertSentence = $db -> prepare("INSERT INTO user VALUES(null,'" . $attributes['name_user'] . "','" . $attributes['last_name'] . "','" . $attributes['mail'] . "','" . $attributes['pass_user'] ."','" . $attributes['profile_picture'] . "','" . $attributes['biography'] . "');");
-            return $insertSentence->execute();
+            foreach (self::NOT_NULL_PARAMETERS as $parameters) {
+                if ($attributes[$parameters] == null || $attributes[$parameters] == "") {
+                    $isPossibleInsertUser = false;
+                    break;
+                }
+            }
+            if ($isPossibleInsertUser) {
+                $insertSentence = $db -> prepare("INSERT INTO user VALUES(null,'" . $attributes['name_user'] . "','" . $attributes['last_name'] . "','" . $attributes['mail'] . "','" . password_hash($attributes['pass_user'], PASSWORD_BCRYPT) ."','" . $attributes['profile_picture'] . "','" . $attributes['biography'] . "');");
+                $result = $insertSentence->execute();
+            }
+            return $result;
         }
 
         /**
@@ -28,9 +45,27 @@
             $result = false;
             $db = Db::connect();
             $attributes = $user -> getAttributes();
-            if ( self::select($attributes['id']) ) {
-                $insertSentence = $db -> prepare("UPDATE user SET name_user='" . $attributes['name_user'] . "',last_name='" . $attributes['last_name'] . "',mail='" . $attributes['mail'] . "',pass_user='" . $attributes['pass_user'] ."',profile_picture='" . $attributes['profile_picture'] . "',biography='" . $attributes['biography'] . "' WHERE id=" . $attributes['id'] . ";");
-                $result = $insertSentence->execute();
+            $idUser = $attributes['id'];
+            unset($attributes['id']);
+            if ( self::select($idUser) ) {
+                $sentenceUpdate = "UPDATE user SET ";
+                foreach ($attributes as $index => $val) {
+                    if ($val != "" || $val != null) {
+                        if (gettype($val) == "string") {
+                            if ($index == "pass_user") {
+                                $sentenceUpdate .= $index . "='" . password_hash($val,PASSWORD_BCRYPT) . "',";
+                            } else {
+                                $sentenceUpdate .= $index . "='" . $val . "',";
+                            }
+                        } else {
+                            $sentenceUpdate .= $index . "=" . $val . ",";
+                        }
+                    }
+                }
+                $sentenceUpdate = substr($sentenceUpdate,0,-1);
+                $sentenceUpdate .= " WHERE id=" . $idUser . ";";
+                $updateSentence = $db -> prepare($sentenceUpdate);
+                $result = $updateSentence->execute();
             }
             return $result;
         }
@@ -83,11 +118,26 @@
          * @param string $mail user mail (Unique in table)
          * @return string user password hash
          */
-        public static function login(string $mail) {
+        public static function login(string $mail, string $passUser) {
             $db = Db::connect();
-            $result = $db -> query("SELECT pass_user FROM user WHERE mail='$mail'");
+            $tokenToSend = false;
+            $result = $db -> query("SELECT id,pass_user FROM user WHERE mail='$mail'");
             $arrayPass = $result -> fetch(PDO::FETCH_ASSOC);
-            return $arrayPass['pass_user'];
+            $isPassCorrect = password_verify($passUser, $arrayPass['pass_user']);
+            if ($isPassCorrect) {
+                $newToken = self::generateToken($mail);
+                $insertSentence = $db -> prepare("INSERT INTO session_token (token, )");
+                $result = $insertSentence->execute();
+            }
+            return $tokenToSend;
+        }
+
+        private static function generateToken(string $mail, int $lengthToken = 20) {
+            if ($lengthToken < 10) {
+                $lengthToken = 10;
+            }
+            $date = new DateTime();
+            return bin2hex(random_bytes(($lengthToken - ($lengthToken % 2)) / 2)) . "-" . strval($date->getTimestamp()) . "-" . $mail;
         }
 
         /**

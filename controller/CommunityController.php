@@ -9,9 +9,9 @@
      */
     function sendJsonSucess(bool $result) {
         if ($result) {
-            echo json_encode(["success" => 1]);
+            echo json_encode(1);
         } else {
-            echo json_encode(["success" => 0]);
+            echo json_encode(0);
         }
     }
 
@@ -19,58 +19,50 @@
      * Insert a community in the table
      */
     function insert() {
-        if ($_POST['user_creator']) {
-            $community = new Community(
-                1,
-                $_POST['name_community'],
-                $_POST['description_community'],
-                $_POST['total_money']
-            );
-            sendJsonSucess(CommunityCRUD::insert($community));
-        }
+        $community = new Community(
+            1,
+            $_POST['name_community'],
+            $_POST['description_community'],
+            $_POST['total_money'],
+            $_POST['user_creator_id']
+        );
+        sendJsonSucess(CommunityCRUD::insert($community));
     }
 
     /**
-     * Update a user in the table
+     * Update a community in the table
      */
     function update() {
-        $user = new User(
+        $community = new Community(
             $_POST['id'],
-            $_POST['name_user'],
-            $_POST['last_name'],
-            $_POST['mail'],
-            $_POST['pass_user'],
-            $_POST['profile_picture'],
-            $_POST['biography']
+            $_POST['name_community'],
+            $_POST['description_community'],
+            $_POST['total_money']
         );
-        sendJsonSucess(UserCRUD::update($user));
+        sendJsonSucess(CommunityCRUD::update($community));
     }
 
     /**
-     * Remove a user in the table
+     * Remove a community in the table
      */
     function remove() {
         $id = $_POST['id'];
-        sendJsonSucess(UserCRUD::remove($id));
+        sendJsonSucess(CommunityCRUD::remove($id));
     }
 
     /**
-     * Select a user in the table
+     * Select a community in the table
      */
     function select() {
         $id = $_POST['id'];
-        $user = UserCRUD::select($id);
-        echo json_encode($user -> getAttributes());
+        $community = CommunityCRUD::select($id);
+        echo json_encode($community -> getAttributes());
     }
 
-    /**
-     * Search a user and verify the password
-     */
-    function login() {
-        $email = $_POST['mail'];
-        $passDb = UserCRUD::login($email);
-        $result = password_verify($_POST['pass_user'], $passDb);
-        echo $result;
+    function selectCommunityUsers() {
+        $id = $_POST['id'];
+        $users = CommunityCRUD::selectCommunityUsers($id);
+        echo json_encode($users);
     }
 
     /**
@@ -86,8 +78,8 @@
                 remove();
             } elseif ($_POST['action'] == "select") {
                 select();
-            } elseif ($_POST['action'] == "login") {
-                login();
+            } elseif ($_POST['action'] == "selectCommunityUsers") {
+                selectCommunityUsers();
             }
         }
     }

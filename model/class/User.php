@@ -8,51 +8,46 @@
             'name_user' => [
                 self::REG_EXPR_STRING_WITH_SPACES,
                 50,
-                2,
-                true
+                2
             ],
             'last_name' => [
                 self::REG_EXPR_STRING_WITH_SPACES,
                 80,
-                2,
-                false
+                2
             ],
             'mail' => [
                 '/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i',
                 80,
-                5,
-                true
+                5
             ],
             'pass_user' => [
                 self::REG_EXPR_STRING_WITH_SPACES,
                 20,
-                6,
-                true
+                6
             ],
             'biography' => [
                 '/.+/im',
                 300,
-                0,
-                false
+                0
             ]
         ];
 
         private array $attributes = [];
 
-        public function __construct(int $id, string $name_user, $last_name, string $mail, string $pass_user, $profile_picture, $biography) {
+        public function __construct(int $id, $nameUser, $lastName, $mail, $passUser, $profilePicture, $biography) {
             if ($id > 0 && Utilities::validateString(
-                    [$name_user, self::STRINGS_TO_VERIFY['name_user'][0], self::STRINGS_TO_VERIFY['name_user'][1], self::STRINGS_TO_VERIFY['name_user'][2], self::STRINGS_TO_VERIFY['name_user'][3]],
-                    [$last_name, self::STRINGS_TO_VERIFY['last_name'][0], self::STRINGS_TO_VERIFY['last_name'][1], self::STRINGS_TO_VERIFY['last_name'][2], self::STRINGS_TO_VERIFY['last_name'][3]],
-                    [$mail, self::STRINGS_TO_VERIFY['mail'][0], self::STRINGS_TO_VERIFY['mail'][1], self::STRINGS_TO_VERIFY['mail'][2], self::STRINGS_TO_VERIFY['mail'][3]],
-                    [$pass_user, self::STRINGS_TO_VERIFY['pass_user'][0], self::STRINGS_TO_VERIFY['pass_user'][1], self::STRINGS_TO_VERIFY['pass_user'][2], self::STRINGS_TO_VERIFY['pass_user'][3]],
-                    [$biography, self::STRINGS_TO_VERIFY['biography'][0], self::STRINGS_TO_VERIFY['biography'][1], self::STRINGS_TO_VERIFY['biography'][2], self::STRINGS_TO_VERIFY['biography'][3]]
+                    [$nameUser, self::STRINGS_TO_VERIFY['name_user'][0], self::STRINGS_TO_VERIFY['name_user'][1], self::STRINGS_TO_VERIFY['name_user'][2]],
+                    [$lastName, self::STRINGS_TO_VERIFY['last_name'][0], self::STRINGS_TO_VERIFY['last_name'][1], self::STRINGS_TO_VERIFY['last_name'][2]],
+                    [$mail, self::STRINGS_TO_VERIFY['mail'][0], self::STRINGS_TO_VERIFY['mail'][1], self::STRINGS_TO_VERIFY['mail'][2]],
+                    [$passUser, self::STRINGS_TO_VERIFY['pass_user'][0], self::STRINGS_TO_VERIFY['pass_user'][1], self::STRINGS_TO_VERIFY['pass_user'][2]],
+                    [$biography, self::STRINGS_TO_VERIFY['biography'][0], self::STRINGS_TO_VERIFY['biography'][1], self::STRINGS_TO_VERIFY['biography'][2]]
                 )) {
                     $this->attributes['id'] = $id;
-                    $this->attributes['name_user'] = $name_user;
-                    $this->attributes['last_name'] = $last_name;
+                    $this->attributes['name_user'] = $nameUser;
+                    $this->attributes['last_name'] = $lastName;
                     $this->attributes['mail'] = $mail;
-                    $this->attributes['pass_user'] = password_hash($pass_user, PASSWORD_BCRYPT);
-                    $this->attributes['profile_picture'] = $profile_picture;
+                    $this->attributes['pass_user'] = $passUser;
+                    $this->attributes['profile_picture'] = $profilePicture;
                     $this->attributes['biography'] = $biography;
                 }
         }

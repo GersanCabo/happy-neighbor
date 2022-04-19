@@ -3,6 +3,11 @@
 
     class CommunityCRUD {
 
+        private const NOT_NULL_PARAMETERS = [
+            'name_community',
+            'user_creator_id'
+        ];
+
         public function __construct() {}
 
         /**
@@ -12,10 +17,21 @@
          * @return bool if the community is inserted or not
          */
         public static function insert(Community $community):bool {
+            $result = false;
             $db = Db::connect();
+            $isPossibleInsertCommunity = true;
             $attributes = $community -> getAttributes();
-            $insertSentence = $db -> prepare("INSERT INTO community VALUES(null,'" . $attributes['name_community'] . "','" . $attributes['description_community'] . "'," . $attributes['total_money'] . ",null);");
-            return $insertSentence->execute();
+            foreach (self::NOT_NULL_PARAMETERS as $parameters) {
+                if ($attributes[$parameters] == null || $attributes[$parameters] == "") {
+                    $isPossibleInsertCommunity = false;
+                    break;
+                }
+            }
+            if ($isPossibleInsertCommunity) {
+                $insertSentence = $db -> prepare("INSERT INTO community VALUES(null,'" . $attributes['name_community'] . "','" . $attributes['description_community'] . "'," . $attributes['total_money'] . "," . $attributes['user_creator_id'] . ",null);");
+                $result = $insertSentence->execute();
+            }
+            return $result; 
         }
 
         /**
@@ -28,9 +44,23 @@
             $result = false;
             $db = Db::connect();
             $attributes = $community -> getAttributes();
-            if ( self::select($attributes['id']) ) {
-                $insertSentence = $db -> prepare("UPDATE community SET name_community='" . $attributes['name_community'] . "',description_community='" . $attributes['description_community'] . "',total_money=" . $attributes['total_money'] . " WHERE id=" . $attributes['id'] . ";");
-                $result = $insertSentence->execute();
+            $idCommunity = $attributes['id'];
+            unset($attributes['id']);
+            if ( self::select($idCommunity) ) {
+                $sentenceUpdate = "UPDATE community SET ";
+                foreach ($attributes as $index => $val) {
+                    if ($val != "" || $val != null) {
+                        if (gettype($val) == "string") {
+                            $sentenceUpdate .= $index . "='" . $val . "',";
+                        } else {
+                            $sentenceUpdate .= $index . "=" . $val . ",";
+                        }
+                    }
+                }
+                $sentenceUpdate = substr($sentenceUpdate,0,-1);
+                $sentenceUpdate .= " WHERE id=" . $idCommunity . ";";
+                $updateSentence = $db -> prepare($sentenceUpdate);
+                $result = $updateSentence->execute();
             }
             return $result;
         }
@@ -45,7 +75,7 @@
             $result = false;            
             $db = Db::connect();
             if ( self::select( $id ) && $id > 0) {
-                $insertSentence = $db -> prepare("DELETE FROM community WHERE id=$id");
+                $insertSentence = $db -> prepare("DELETE FROM community WHERE id=$id;");
                 $result = $insertSentence->execute();
             }
             return $result;
@@ -60,7 +90,7 @@
         public static function select(int $id) {
             $community = false;
             $db = Db::connect();
-            $result = $db -> query("SELECT * FROM community WHERE id=$id");
+            $result = $db -> query("SELECT * FROM community WHERE id=$id;");
             if ($arrayCommunity = $result -> fetch(PDO::FETCH_ASSOC)) {
                 $community = Community::getCommunity($arrayCommunity);
             }
@@ -76,9 +106,12 @@
         public static function selectCommunityUsers(int $idCommunity) {
             $users = [];
             $db = Db::connect();
-            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity");
+            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity;");
             while ($user = $usersCommunity -> fetch(PDO::FETCH_ASSOC)) {
-                $users[] = [$user['id_user'],$user['is_admin']];
+                $userSelect = $db -> query("SELECT name_user, last_name, profile_picture, biography FROM user WHERE id=" . $user['id_user'] . ";");
+                if ($userAttr = $userSelect -> fetch(PDO::FETCH_ASSOC)) {
+                    $users[$user['id_user']] = [$userAttr,$user['is_admin']];
+                }
             }
             return $users;
         }
