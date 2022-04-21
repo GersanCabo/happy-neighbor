@@ -28,7 +28,7 @@
                 }
             }
             if ($isPossibleInsertCommunity) {
-                $insertSentence = $db -> prepare("INSERT INTO community VALUES(null,'" . $attributes['name_community'] . "','" . $attributes['description_community'] . "'," . $attributes['total_money'] . "," . $attributes['user_creator_id'] . ",null);");
+                $insertSentence = $db -> prepare("INSERT INTO community VALUES(null,'" . $attributes['name_community'] . "','" . $attributes['description_community'] . "'," . $attributes['user_creator_id'] . ",null);");
                 $result = $insertSentence->execute();
             }
             return $result; 
@@ -106,7 +106,7 @@
         public static function selectCommunityUsers(int $idCommunity) {
             $users = [];
             $db = Db::connect();
-            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity;");
+            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity AND invitation_accepted=true;");
             while ($user = $usersCommunity -> fetch(PDO::FETCH_ASSOC)) {
                 $userSelect = $db -> query("SELECT name_user, last_name, profile_picture, biography FROM user WHERE id=" . $user['id_user'] . ";");
                 if ($userAttr = $userSelect -> fetch(PDO::FETCH_ASSOC)) {
@@ -116,5 +116,16 @@
             return $users;
         }
 
+        public static function isAdmin(int $idUser, int $idCommunity) {
+            $result = false;
+            $db = Db::connect();
+            $userRoleSentence = $db -> query("SELECT is_admin, invitation_accepted FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity;");
+            while ($userRole = $userRoleSentence -> fetch(PDO::FETCH_ASSOC)) {
+                if (boolval($userRole['invitation_accepted'])) {
+                    $result = $userRole['is_admin'];
+                }
+            }
+            return $result;
+        }
     }
 ?>

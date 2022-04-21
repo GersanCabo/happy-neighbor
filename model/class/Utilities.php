@@ -37,9 +37,5 @@
             }
             return true;
         }
-
-        public static function validateToken(string $token) {
-            
-        }
     }
 ?>

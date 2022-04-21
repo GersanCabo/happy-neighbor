@@ -4,12 +4,15 @@
 
         private array $attributes = [];
 
-        public function __construct(string $token, int $idUser, $expiredDate = null) {
-            if ($idUser > 0 && strlen($token) >= 10) {
-                    $this->attributes['token'] = $token;
-                    $this->attributes['expired_date'] = $expiredDate;
-                    $this->attributes['id_user'] = $idUser;
+        public function __construct(int $idUser, $token = null, $dateToken = null) {
+            if ($idUser > 0 && (strlen($token) >= 10 || $token == null || $token == "")) {
+                if ($token == null || $token == "") {
+                    $token = self::generateToken($idUser);
                 }
+                $this->attributes['token'] = $token;
+                $this->attributes['date_token'] = $dateToken;
+                $this->attributes['id_user'] = $idUser;
+            }
         }
 
         /**
@@ -19,7 +22,7 @@
          * @return object object SessionToken
          */
         public static function getSessionToken(array $sessionToken) {
-            return new SessionToken($sessionToken['token'], $sessionToken['id_user'], $sessionToken['expired_date']);
+            return new SessionToken($sessionToken['id_user'],$sessionToken['token'], $sessionToken['date_token']);
         }
 
         /**
@@ -42,15 +45,17 @@
         }
 
         /**
-         * SessionToken class setter
-         *
-         * @param string $attribute attribute name
-         * @param mixed $value attribute value
+         * Generate a user token session
+         * 
+         * @param string $mail user mail
+         * @param int $lengthToken length of the token to generate, <10
+         * @return string new user session token
          */
-        public function __set(string $attribute, $value) {
-            if (!( ($attribute == "id_user" && $value <= 0) || ($attribute == "token" && strlen($value) < 10) )) {
-                $this->attributes[$attribute] = $value;
+        private static function generateToken(int $id, int $lengthToken = 15) {
+            if ($lengthToken < 10) {
+                $lengthToken = 10;
             }
+            return bin2hex(random_bytes(($lengthToken - ($lengthToken % 2)) / 2)) . "-" . strval($id);
         }
     }
 ?>

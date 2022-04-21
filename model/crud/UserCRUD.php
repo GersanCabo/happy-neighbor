@@ -113,49 +113,6 @@
         }
 
         /**
-         * Search a user by email, validate the password and return a session token
-         * 
-         * @param string $mail user mail (Unique in table)
-         * @param string $passUser password to validate against the hash
-         * @return mixed new user session token in db or false
-         */
-        public static function login(string $mail, string $passUser) {
-            $db = Db::connect();
-            $tokenToSend = false;
-            $resultSelect = $db -> query("SELECT id,pass_user FROM user WHERE mail='$mail'");
-            $arrayPass = $resultSelect -> fetch(PDO::FETCH_ASSOC);
-            $isPassCorrect = password_verify($passUser, $arrayPass['pass_user']);
-            if ($isPassCorrect) {
-                $newToken = self::generateToken($mail);
-                $dropSentence = $db -> prepare("DELETE FROM session_token WHERE id_user=" . $arrayPass['id'] . ";");
-                $isDroped = $dropSentence->execute();
-                if ($isDroped) {
-                    $insertSentence = $db -> prepare("INSERT INTO session_token VALUES ('$newToken',null," . $arrayPass['id'] . ");");
-                    $isInserted = $insertSentence->execute();
-                    if ($isInserted) {
-                        $tokenToSend = $newToken;
-                    }
-                }
-            }
-            return $tokenToSend;
-        }
-
-        /**
-         * Generate a user token session
-         * 
-         * @param string $mail user mail
-         * @param int $lengthToken length of the token to generate, <10
-         * @return string new user session token
-         */
-        private static function generateToken(string $mail, int $lengthToken = 15) {
-            if ($lengthToken < 10) {
-                $lengthToken = 10;
-            }
-            $date = new DateTime();
-            return bin2hex(random_bytes(($lengthToken - ($lengthToken % 2)) / 2)) . "-" . $mail;
-        }
-
-        /**
          * Select the communities of a user
          * 
          * @param int $idUser user id
@@ -164,7 +121,7 @@
         public static function selectUserCommunities(int $idUser) {
             $communities = [];
             $db = Db::connect();
-            $communitiesUser = $db -> query("SELECT id_community, is_admin FROM user_community WHERE id_user=$idUser;");
+            $communitiesUser = $db -> query("SELECT id_community, is_admin FROM user_community WHERE id_user=$idUser AND invitation_accepted=true;");
             while ($community = $communitiesUser -> fetch(PDO::FETCH_ASSOC)) {
                 $communities[] = [$community['id_community'],$community['is_admin']];
             }
@@ -196,7 +153,7 @@
                  *      >1: The user to remove is not the unique admin, remove the user
                  */
                 $totalAdmins = 0;
-                $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$arrayCommunity[0]");
+                $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$arrayCommunity[0] AND invitation_accepted=true;");
                 while ($user = $usersCommunity -> fetch(PDO::FETCH_ASSOC)) {
                     $totalUser += 1;
                     if ($arrayCommunity[1] == 1 && $user['is_admin'] == 1) {

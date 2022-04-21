@@ -21,7 +21,6 @@ CREATE TABLE community (
     id INT NOT NULL AUTO_INCREMENT,
     name_community VARCHAR(50) NOT NULL,
     description_community VARCHAR(300),
-    total_money FLOAT(9,2),
     user_creator_id INT NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (id),
@@ -32,6 +31,8 @@ CREATE TABLE user_community (
     id_user INT NOT NULL,
     id_community INT NOT NULL,
     is_admin BOOL DEFAULT false,
+    invitation_accepted BOOL DEFAULT false,
+    write_permissions BOOL DEFAULT true,
     PRIMARY KEY (id_user, id_community),
     FOREIGN KEY (id_user) REFERENCES user(id),
     FOREIGN KEY (id_community) REFERENCES community(id)
@@ -74,20 +75,9 @@ CREATE TABLE user_vote (
     FOREIGN KEY (id_vote) REFERENCES vote(id)
 );
 
-CREATE TABLE cash_flow_community (
-    id INT NOT NULL AUTO_INCREMENT,
-    amount FLOAT(9,2) NOT NULL,
-    date_transaction TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-    name_transaction VARCHAR(50),
-    concept VARCHAR(300),
-    id_community INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_community) REFERENCES community(id)
-);
-
 CREATE TABLE session_token (
     token VARCHAR(100) NOT NULL,
-    expired_date TIMESTAMP DEFAULT (CURRENT_TIMESTAMP() + 999999),
+    date_token TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
     id_user INT NOT NULL,
     PRIMARY KEY (token),
     FOREIGN KEY (id_user) REFERENCES user(id),
@@ -106,12 +96,26 @@ BEGIN
 END; $$
 delimiter ;
 
+delimiter $$
+CREATE TRIGGER user_community_insert_when_community_insert
+    AFTER INSERT
+    ON community
+    FOR EACH ROW
+BEGIN
+    INSERT INTO user_community VALUES (NEW.user_creator_id, NEW.id, true, true);
+END; $$
+delimiter ;
+
 -- Inserciones de prueba
 
 INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$ANn0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
+INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (2,'admin','lasted','admin@gmail.com','$2y$10$An0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
 
-INSERT INTO community (id, name_community,total_money,user_creator_id) VALUES (1, 'community', 10.2, 1);
-INSERT INTO community (id, name_community,total_money,user_creator_id) VALUES (2, 'community2', 11.2, 1);
 
-INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,1,false);
-INSERT INTO user_community (id_user, id_community, is_admin) VALUES (1,2,false);
+INSERT INTO community (id, name_community,user_creator_id) VALUES (1, 'community', 1);
+INSERT INTO community (id, name_community,user_creator_id) VALUES (2, 'community2', 1);
+
+INSERT INTO user_community VALUES (2,1,false,true);
+
+INSERT INTO session_token VALUES ('7c1ef4a0256611-1',null,1);
+INSERT INTO session_token VALUES ('7c1ef4a0256611-2',null,2);
