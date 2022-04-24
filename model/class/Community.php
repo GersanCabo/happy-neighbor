@@ -19,16 +19,16 @@
 
         private array $attributes = [];
 
-        public function __construct(int $id, $name_community, $description_community, $user_creator_id = null, $creation_date = null) {
-            if ($id > 0 && ($user_creator_id > 0 || $user_creator_id == null) && Utilities::validateString(
-                    [$name_community, self::STRINGS_TO_VERIFY['name_community'][0], self::STRINGS_TO_VERIFY['name_community'][1], self::STRINGS_TO_VERIFY['name_community'][2]],
-                    [$description_community, self::STRINGS_TO_VERIFY['description_community'][0], self::STRINGS_TO_VERIFY['description_community'][1], self::STRINGS_TO_VERIFY['description_community'][2]]
+        public function __construct(int $id, $nameCommunity, $descriptionCommunity, $userCreatorId = null, $creationDate = null) {
+            if ($id > 0 && ($userCreatorId > 0 || $userCreatorId == null) && Utilities::validateString(
+                    [$nameCommunity, self::STRINGS_TO_VERIFY['name_community'][0], self::STRINGS_TO_VERIFY['name_community'][1], self::STRINGS_TO_VERIFY['name_community'][2]],
+                    [$descriptionCommunity, self::STRINGS_TO_VERIFY['description_community'][0], self::STRINGS_TO_VERIFY['description_community'][1], self::STRINGS_TO_VERIFY['description_community'][2]]
                 )) {
                     $this->attributes['id'] = $id;
-                    $this->attributes['name_community'] = $name_community;
-                    $this->attributes['description_community'] = $description_community;
-                    $this->attributes['user_creator_id'] = $user_creator_id;
-                    $this->attributes['creation_date'] = $creation_date;
+                    $this->attributes['name_community'] = $nameCommunity;
+                    $this->attributes['description_community'] = $descriptionCommunity;
+                    $this->attributes['user_creator_id'] = $userCreatorId;
+                    $this->attributes['creation_date'] = $creationDate;
                 }
         }
 

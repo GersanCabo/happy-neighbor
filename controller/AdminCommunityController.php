@@ -45,6 +45,15 @@
             }
         }
     }
+
+    function changePostPermission() {
+        if (isset($_POST['session_token']) && isset($_POST['id']) && isset($_POST['id_user_to_update']) && isset($_POST['write_permission'])) {
+            $idUser = processToken($_POST['session_token']);
+            if (CommunityCRUD::isAdmin($idUser,$_POST['id']) == "1" && gettype(CommunityCRUD::isAdmin($_POST['id_user_to_update'],$_POST['id'])) == "string") {
+                sendJsonSucess(CommunityCRUD::changePostPermission($_POST['id_user_to_update'],$_POST['id'],$_POST['write_permission']));
+            }
+        }
+    }
     
 
     /**
@@ -56,6 +65,8 @@
                 update();
             } elseif ($_POST['action'] == "remove") {
                 remove();
+            } elseif ($_POST['action'] == "changePostPermission") {
+                changePostPermission();
             }
         }
     }

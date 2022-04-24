@@ -116,6 +116,27 @@
             return $users;
         }
 
+        public static function changePostPermission(int $idUser, int $idCommunity, bool $writePermission) {            
+            $db = Db::connect();
+            $writePermissionString = "false";
+            if ($writePermission) {
+                $writePermissionString = "true";
+            }
+            $insertSentence = $db -> prepare("UPDATE user_community SET write_permission=$writePermissionString WHERE id_user=$idUser AND id_community=$idCommunity");
+            $result = $insertSentence->execute();
+            return $result;
+        }
+
+        /**
+         * Check if the user is admin or not
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return $result with these values:
+         *      "0": if not a admin
+         *      "1": if a admin
+         *      false: if not a community user
+         */
         public static function isAdmin(int $idUser, int $idCommunity) {
             $result = false;
             $db = Db::connect();
