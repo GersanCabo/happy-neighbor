@@ -40,7 +40,7 @@
         }
 
         /**
-         * Update a date end of a vote in the table and return the result
+         * Update a date end of a vote from the table and return the result
          * 
          * @param object vote object
          * @return bool if the vote is updated or not
@@ -74,6 +74,63 @@
                 $vote = Vote::getVote($arrayVote);
             }
             return $vote;
+        }
+
+        /**
+         * Remove a vote from the table
+         * 
+         * @param int $id vote id
+         * @return bool if the vote is removed or not
+         */
+        public static function remove(int $id) {
+            $result = false;
+            $db = Db::connect();
+            $vote = self::select($id);
+            if ($vote) {
+                $removeSentence = $db -> prepare("DELETE FROM vote WHERE id=$id");
+                $result = $removeSentence->execute();
+            }
+            return $result;
+        }
+
+        /**
+         * Check if a user has already voted
+         * 
+         * @param int $idUser user id
+         * @param int $idVote vote id
+         * @return bool $vote if a user has voted or not
+         */
+        public static function checkVoteUser(int $idUser, int $idVote):bool {
+            $vote = false;
+            $db = Db::connect();
+            $result = $db -> query("SELECT * FROM user_vote WHERE id_user=$idUser AND id_vote=$idVote");
+            if ($result -> fetch(PDO::FETCH_ASSOC)) {
+                $vote = true;
+            }
+            return $vote;
+        }
+
+        /**
+         * Add a user's vote
+         * 
+         * @param int $id vote id
+         * @param int $idUser user id
+         * @param bool $voteVal user's vote value (yes or not)
+         * @return bool $result if the user's vote has been recorded or not
+         */
+        public static function vote(int $id, int $idUser, bool $voteVal):bool {
+            $result = false;
+            $db = DB::connect();
+            $existVote = self::select($id);
+            if ($existVote) {
+                $voteString = "false";
+                if ($voteVal) {
+                    $voteString = "true";
+                }
+                $insertSentence = $db -> prepare("INSERT INTO user_vote VALUES ($idUser,$id,$voteString);");
+                $result = $insertSentence->execute();
+            }
+            return $result;
         }
     }
 ?>

@@ -17,4 +17,17 @@
             return $arrayAttr['id_user'];
         }
     }
+
+    /**
+     * Show a JSON according to the value of a bool
+     * 
+     * @param bool $result to valorate
+     */
+    function sendJsonSucess(bool $result) {
+        if ($result) {
+            echo json_encode(1);
+        } else {
+            echo json_encode(0);
+        }
+    }
 ?>

@@ -103,7 +103,7 @@
          * @param int $idCommunity community id
          * @return array users of the community
          */
-        public static function selectCommunityUsers(int $idCommunity) {
+        public static function selectCommunityUsers(int $idCommunity):array {
             $users = [];
             $db = Db::connect();
             $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity AND invitation_accepted=true;");
@@ -116,7 +116,32 @@
             return $users;
         }
 
-        public static function changePostPermission(int $idUser, int $idCommunity, bool $writePermission) {            
+        /**
+         * Select the status of the user permission to publish posts, comment and vote
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return bool $userPermission status of the user permission to publish posts, comment and vote
+         */
+        public static function selectPermissionUser(int $idUser, int $idCommunity) {
+            $userPermission = false;
+            $db = Db::connect();
+            $userPermissionSentence = $db -> query("SELECT write_permission FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity");
+            while ($userPermissionArray = $userPermissionSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $userPermission = $userPermissionArray['write_permission'];
+            }
+            return $userPermission;
+        }
+
+        /**
+         * Change the permission of te user to publish posts, comment and vote
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @param bool $writePermission if the user have permission to publish posts, comment and vote
+         * @return bool $result the user permission is changed or not
+         */
+        public static function changePostPermission(int $idUser, int $idCommunity, bool $writePermission):bool {            
             $db = Db::connect();
             $writePermissionString = "false";
             if ($writePermission) {

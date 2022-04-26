@@ -6,19 +6,6 @@
     require_once("Utilities.php");
 
     /**
-     * Show a JSON according to the value of a bool
-     * 
-     * @param bool $result to valorate
-     */
-    function sendJsonSucess(bool $result) {
-        if ($result) {
-            echo json_encode(1);
-        } else {
-            echo json_encode(0);
-        }
-    }
-
-    /**
      * Insert a vote in the table
      */
     function insert() {
@@ -42,6 +29,9 @@
         }
     }
 
+    /**
+     * Update end date of the vote
+     */
     function updateDateEnd() {
         if (isset($_POST['session_token']) && isset($_POST['id'])) {
             $idUser = processToken($_POST['session_token']);
@@ -59,11 +49,45 @@
         }
     }
 
+    /**
+     * Add a user vote
+     */
     function vote() {
-        
+        if (isset($_POST['session_token']) && isset($_POST['id']) && isset($_POST['vote_value'])) {
+            $idUser = processToken($_POST['session_token']);
+            $vote = VoteCRUD::select($_POST['id']);
+            if ($vote) {
+                $arrayVote = $vote -> getAttributes();
+                /*
+                    If validations:
+                        1. If the user is a member of the community
+                        2. If the user has permission to vote
+                        3. If the vote has not expired
+                        4. If the user has not voted before
+                */
+                if ( CommunityCRUD::isAdmin($idUser,$arrayVote['id_community']) && CommunityCRUD::selectPermissionUser($idUser,$arrayVote['id_community']) 
+                        && ($arrayVote['date_end'] == null || ( strtotime($arrayVote['date_end']) - time() ) > 0 ) && !(VoteCRUD::checkVoteUser($idUser,$arrayVote['id'])) ) {
+                    sendJsonSucess(VoteCRUD::vote( $_POST['id'],$idUser,boolval($_POST['vote_value']) ));
+                }
+            }
+        }
     }
 
-    
+    /**
+     * Remove a vote
+     */
+    function remove() {
+        if (isset($_POST['session_token']) && isset($_POST['id'])) {
+            $idUser = processToken($_POST['session_token']);
+            $vote = VoteCRUD::select($_POST['id']);
+            if ($vote) {
+                $arrayVote = $vote -> getAttributes();
+                if ( CommunityCRUD::isAdmin($idUser,$arrayVote['id_community']) == "1" ) {
+                    sendJsonSucess(VoteCRUD::remove($arrayVote['id']));
+                }
+            }
+        }
+    }
 
     /**
      * Choose a action according to the value action in $_POST
@@ -74,6 +98,10 @@
                 insert();
             } else if ($_POST['action'] == "updateDateEnd") {
                 updateDateEnd();
+            } elseif ($_POST['action'] == "vote") {
+                vote();
+            } else if ($_POST['action'] == "remove") {
+                remove();
             }
         }
     }
