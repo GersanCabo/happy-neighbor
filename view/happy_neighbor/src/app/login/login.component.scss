@@ -1,0 +1,22 @@
+@use '/src/assets/scss/variables.scss' as vars;
+@import '/src/assets/scss/classes.scss';
+
+
+
+.content {
+  height: 100%;
+  background-color: vars.$color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .form {
+    padding: 80px 40px;
+    background-color: vars.$color-secundary;
+    border-radius: 10px;
+    .buttons-login {
+      button {
+        font-size: x-large;
+      }
+    }
+  }
+}

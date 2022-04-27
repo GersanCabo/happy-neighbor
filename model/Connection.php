@@ -3,6 +3,9 @@
         private static $connection = NULL;
         private function __construct() {}
 
+        /**
+         * Connect to the DB and return the connection
+         */
         public static function connect() {
             try {
                 [$host, $user, $passwd, $db] = ['localhost', 'happyneighbor', '5GLJyHW8q6Oa', 'happyneighbor'];

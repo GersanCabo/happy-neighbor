@@ -45,7 +45,7 @@
          * @param object vote object
          * @return bool if the vote is updated or not
          */
-        public static function updateDateEnd(string $dateEnd, int $id): bool {
+        public static function updateDateEnd(string $dateEnd, int $id):bool {
             $result = false;
             $db = Db::connect();
             $vote = self::select($id);
@@ -64,7 +64,7 @@
          * Search a vote in the table and return it if found
          * 
          * @param int $id vote id (Primary key)
-         * @return mixed object Vote or false if not located 
+         * @return $vote object Vote or false if not located 
          */
         public static function select(int $id) {
             $vote = false;
@@ -82,7 +82,7 @@
          * @param int $id vote id
          * @return bool if the vote is removed or not
          */
-        public static function remove(int $id) {
+        public static function remove(int $id):bool {
             $result = false;
             $db = Db::connect();
             $vote = self::select($id);

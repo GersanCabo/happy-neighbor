@@ -39,6 +39,12 @@
             return $result;
         }
 
+        /**
+         * Select a publication in the table and return the result
+         * 
+         * @param int $id publication id
+         * @return $publication object publication or false
+         */
         public static function select(int $id) {
             $publication = false;
             $db = Db::connect();
@@ -47,6 +53,23 @@
                 $publication = Publication::getPublication($arrayPublication);
             }
             return $publication;
+        }
+
+        /**
+         * Remove a publication in the table and return the result
+         * 
+         * @param $id publication id
+         * @return bool $result if the publication is removed or not
+         */
+        public static function remove(int $id):bool {
+            $result = false;
+            $db = Db::connect();
+            $existPublication = self::select($id);
+            if ($existPublication) {
+                $insertSentence = $db -> prepare("DELETE FROM publication WHERE id=$id");
+                $result = $insertSentence->execute();
+            }
+            return $result;
         }
 
         /**
@@ -66,7 +89,14 @@
             return $likedPublication;
         }
 
-        public static function addLike(int $id, int $idUser) {
+        /**
+         * Add a like in a publication
+         * 
+         * @param int $id publication id
+         * @param int $idUser user id
+         * @return bool $result like is added or not
+         */
+        public static function addLike(int $id, int $idUser):bool {
             $result = false;
             $db = DB::connect();
             $existPublication = self::select($id);
@@ -77,6 +107,13 @@
             return $result;
         }
 
+        /**
+         * Remove a like of a publication
+         * 
+         * @param int $id publication id
+         * @param int $idUser user id
+         * @return bool $result like is removed or not    
+         */
         public static function removeLike(int $id, int $idUser) {
             $result = false;
             $db = DB::connect();

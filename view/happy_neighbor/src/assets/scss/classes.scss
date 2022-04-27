@@ -1,0 +1,20 @@
+.buttons-glued {
+  button {
+    border: 0px;
+    border-radius: 0px;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: vars.$gray-light;
+    color: vars.$gray-dark;
+    transition: background-color 0.3s ease-out 100ms, color 0.3s ease-out 100ms;
+    cursor: pointer;
+    &.active {
+      background-color: vars.$color-primary;
+      color: white;
+    }
+    &:hover {
+      background-color: darken(vars.$color-primary,10%);
+      color: white;
+    }
+  }
+}

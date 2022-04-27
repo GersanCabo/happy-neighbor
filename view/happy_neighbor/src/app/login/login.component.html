@@ -1,0 +1,15 @@
+<div class="content">
+  <div class="form">
+    <div class="buttons-glued buttons-login">
+      <button class="active">Log In</button>
+      <button>Sign Up</button>
+    </div>
+    <div *ngIf="loginForm; else signForm">
+      Login
+    </div>
+  </div>
+</div>
+
+<ng-template #signForm>
+  Sign
+</ng-template>

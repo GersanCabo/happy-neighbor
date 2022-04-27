@@ -35,6 +35,9 @@
         }
     }
 
+    /**
+     * Select all users of a community
+     */
     function selectCommunityUsers() {
         if (isset($_POST['session_token']) && isset($_POST['id'])) {
             $idUser = processToken($_POST['session_token']);
@@ -45,8 +48,6 @@
             }
         }
     }
-
-    
 
     /**
      * Choose a action according to the value action in $_POST

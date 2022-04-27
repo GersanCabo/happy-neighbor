@@ -68,7 +68,7 @@ CREATE TABLE vote (
     negative_votes INT DEFAULT 0,
     date_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
     date_end TIMESTAMP NULL,
-    user_creator INT NOT NULL,
+    user_creator INT,
     id_community INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_creator) REFERENCES user(id),
@@ -117,6 +117,46 @@ BEGIN
 END; $$
 delimiter ;
 
+delimiter $$
+CREATE TRIGGER user_like_delete_when_user_delete 
+    BEFORE DELETE  
+    ON user 
+    FOR EACH ROW
+BEGIN
+    DELETE FROM user_like WHERE id_user=OLD.id;
+END; $$
+delimiter ;
+
+delimiter $$
+CREATE TRIGGER publication_delete_when_user_delete 
+    BEFORE DELETE  
+    ON user 
+    FOR EACH ROW
+BEGIN
+    DELETE FROM publication WHERE id_user=OLD.id;
+END; $$
+delimiter ;
+
+delimiter $$
+CREATE TRIGGER session_token_delete_when_user_delete 
+    BEFORE DELETE  
+    ON user 
+    FOR EACH ROW
+BEGIN
+    DELETE FROM session_token WHERE id_user=OLD.id;
+END; $$
+delimiter ;
+
+delimiter $$
+CREATE TRIGGER vote_update_when_user_delete 
+    BEFORE DELETE  
+    ON user 
+    FOR EACH ROW
+BEGIN
+    UPDATE vote SET user_creator=null WHERE user_creator=OLD.id;
+END; $$
+delimiter ;
+
 -- Community
 
 delimiter $$
@@ -146,6 +186,16 @@ CREATE TRIGGER vote_delete_when_community_remove
     FOR EACH ROW
 BEGIN
     DELETE FROM vote WHERE id_community=OLD.id;
+END; $$
+delimiter ;
+
+delimiter $$
+CREATE TRIGGER publication_delete_when_community_remove
+    BEFORE DELETE 
+    ON community 
+    FOR EACH ROW
+BEGIN
+    DELETE FROM publication WHERE id_community=OLD.id;
 END; $$
 delimiter ;
 
@@ -189,14 +239,23 @@ delimiter ;
 
 delimiter $$
 CREATE TRIGGER publication_update_when_user_like_remove
-    AFTER REMOVE
+    BEFORE DELETE
     ON user_like
     FOR EACH ROW
 BEGIN
-    UPDATE publication SET likes=(SELECT SUM(likes - 1) FROM publication WHERE id=NEW.id_publication) WHERE id=NEW.id_publication;
+    UPDATE publication SET likes=(SELECT SUM(likes - 1) FROM publication WHERE id=OLD.id_publication) WHERE id=OLD.id_publication;
 END; $$
 delimiter ;
 
+delimiter $$
+CREATE TRIGGER user_like_delete_when_publication_delete
+    BEFORE DELETE
+    ON publication
+    FOR EACH ROW
+BEGIN
+    DELETE FROM user_like WHERE id_publication=OLD.id;
+END; $$
+delimiter ;
 
 
 

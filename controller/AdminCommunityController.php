@@ -33,6 +33,9 @@
         }
     }
 
+    /**
+     * Change a user post perrmission
+     */
     function changePostPermission() {
         if (isset($_POST['session_token']) && isset($_POST['id']) && isset($_POST['id_user_to_update']) && isset($_POST['write_permission'])) {
             $idUser = processToken($_POST['session_token']);

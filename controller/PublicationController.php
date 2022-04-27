@@ -24,22 +24,44 @@
         }
     }
 
+    /**
+     * Add a like in a publication
+     */
     function addLike() {
         if (isset($_POST['session_token']) && isset($_POST['id'])) {
             $idUser = processToken($_POST['session_token']);
             $publication = PublicationCRUD::select($_POST['id']);
-            if (CommunityCRUD::isAdmin($idUser,$publication['id_community']) && CommunityCRUD::selectPermissionUser($idUser,$publication['id_community']) && !(PublicationCRUD::checkLikeUser($idUser,$publication['id']))) {
-                sendJsonSucess(PublicationCRUD::addLike($publication['id'], $idUser));
+            $publicationArray = $publication -> getAttributes();
+            if (CommunityCRUD::isAdmin($idUser,$publicationArray['id_community']) && CommunityCRUD::selectPermissionUser($idUser,$publicationArray['id_community']) && !(PublicationCRUD::checkLikeUser($idUser,$publicationArray['id']))) {
+                sendJsonSucess(PublicationCRUD::addLike($publicationArray['id'], $idUser));
             }
         }
     }
 
+    /**
+     * Remove a like of a publication
+     */
     function removeLike() {
         if (isset($_POST['session_token']) && isset($_POST['id'])) {
             $idUser = processToken($_POST['session_token']);
             $publication = PublicationCRUD::select($_POST['id']);
-            if (CommunityCRUD::isAdmin($idUser,$publication['id_community']) && CommunityCRUD::selectPermissionUser($idUser,$publication['id_community']) && PublicationCRUD::checkLikeUser($idUser,$publication['id'])) {
-                sendJsonSucess(PublicationCRUD::removeLike($publication['id'], $idUser));
+            $publicationArray = $publication -> getAttributes();
+            if (CommunityCRUD::isAdmin($idUser,$publicationArray['id_community']) && CommunityCRUD::selectPermissionUser($idUser,$publicationArray['id_community']) && PublicationCRUD::checkLikeUser($idUser,$publicationArray['id'])) {
+                sendJsonSucess(PublicationCRUD::removeLike($publicationArray['id'], $idUser));
+            }
+        }
+    }
+
+    /**
+     * Remove a publication
+     */
+    function remove() {
+        if (isset($_POST['session_token']) && isset($_POST['id'])) {
+            $idUser = processToken($_POST['session_token']);
+            $publication = PublicationCRUD::select($_POST['id']);
+            $publicationArray = $publication -> getAttributes();
+            if (CommunityCRUD::isAdmin($idUser,$publicationArray['id_community']) && ($publicationArray['id_user'] == $idUser)) {
+                sendJsonSucess(PublicationCRUD::remove($publicationArray['id']));
             }
         }
     }
@@ -51,6 +73,10 @@
         if ( isset($_POST['action']) ) {
             if ($_POST['action'] == "insert") {
                 insert();
+            } else if ($_POST['action'] == "addLike") {
+                addLike();
+            } else if ($_POST['action'] == "removeLike") {
+                removeLike();
             }
         }
     }
