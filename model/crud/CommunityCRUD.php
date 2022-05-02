@@ -117,6 +117,19 @@
         }
 
         /**
+         * Select the number of community users
+         * 
+         * @param int $idCommunity community id
+         * @return int number of community users
+         */
+        public static function selectNumberOfUsers(int $idCommunity):int {
+            $db = Db::connect();
+            $numberOfUsersSentence = $db -> query("SELECT COUNT(id_user) FROM user_community WHERE id_community=$idCommunity AND invitation_accepted=true;");
+            $number = $numberOfUsersSentence -> fetch(PDO::FETCH_ASSOC);
+            return intval($number['COUNT(id_user)']);
+        }
+
+        /**
          * Select the status of the user permission to publish posts, comment and vote
          * 
          * @param int $idUser user id

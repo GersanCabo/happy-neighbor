@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ADDRESS_SERVER } from '../../global/address-server';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private url = ADDRESS_SERVER + "LoginController.php";
+  private url:string = ADDRESS_SERVER + "LoginController.php";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -22,7 +18,7 @@ export class LoginService {
     return this.httpClient
       .post(this.url, formData)
       .subscribe({
-        next: (response) => console.log(response),
+        next: (response) => this.loggedIn(response),
         error: (error) => console.log(error)
     });
   }
@@ -32,8 +28,7 @@ export class LoginService {
   }
 
   private loggedIn(response: object) {
-    sessionStorage.setItem('session_token',response.toString())
-
+    sessionStorage.setItem('session_token',response.toString());
   }
 
 

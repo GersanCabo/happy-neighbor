@@ -12,6 +12,9 @@ export class LoginComponent implements OnInit {
 
   loginForm:boolean = true;
 
+  /**
+   * Validations of the login form
+   */
   formLogin = new FormGroup({
     mail: new FormControl('',[
       Validators.required,

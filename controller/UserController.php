@@ -1,4 +1,6 @@
 <?php 
+    header('Access-Control-Allow-Origin: *');
+    header("Access-Control-Allow-Headers: *");
     require_once("../model/class/User.php");
     require_once("../model/class/UserPassHash.php");
     require_once("../model/crud/UserCRUD.php");
@@ -58,12 +60,24 @@
      * Select a user in the table
      */
     function select() {
-        if (isset($_POST['session_token']) && isset($_POST['id'])) {
+        if (isset($_POST['session_token'])) {
             $id = processToken($_POST['session_token']);
-            if ($id == $_POST['id']) {
-                $id = $_POST['id'];
+            if ($id) {
                 $user = UserCRUD::select($id);
                 echo json_encode($user -> getAttributes());
+            }
+        }
+    }
+
+    /**
+     * Select all communities of the user
+     */
+    function selectUserCommunities() {
+        if (isset($_POST['session_token'])) {
+            $id = processToken($_POST['session_token']);
+            if ($id) {
+                $communities = UserCRUD::selectUserCommunities($id);
+                echo json_encode($communities);
             }
         }
     }
@@ -81,6 +95,8 @@
                     remove();
                 } elseif ($_POST['action'] == "select") {
                     select();
+                } elseif ($_POST['action'] == "selectUserCommunities") {
+                    selectUserCommunities();
                 }
             }
     }

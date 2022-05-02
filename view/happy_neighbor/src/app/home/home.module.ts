@@ -12,6 +12,9 @@ import { CommunityCardComponent } from './components/community-card/community-ca
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    ListCommunitiesComponent
   ]
 })
 export class HomeModule { }
