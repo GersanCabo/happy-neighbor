@@ -1,0 +1,76 @@
+@use '/src/assets/scss/variables.scss' as vars;
+@import '/src/assets/scss/classes.scss';
+
+
+
+.content {
+  height: 100%;
+  background-image: url('./assets/img/wooden-table-product-background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  .bg-shadow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: rgba(37, 37, 37, 0.205);
+    .form {
+      width: 400px;
+      padding: 60px 20px;
+      background-color: vars.$color-secundary;
+      border-radius: 10px;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      h1 {
+        color: vars.$color-primary;
+
+        margin-top: 0px;
+        margin-bottom: 40px;
+      }
+      .buttons-login {
+        button {
+          font-size: x-large;
+        }
+      }
+    }
+  }
+}
+
+.form-inputs form {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+  border-radius: 1px;
+  .alert-form {
+    background-color: red;
+    width: 80%;
+  }
+  input {
+    width: 300px;
+    padding: 10px 5px;
+    margin-top: 30px;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    max-width: 200px;
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: vars.$color-primary;
+    border: 0px;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease-out 100ms, color 0.3s ease-out 100ms;
+    &:hover {
+      background-color: darken(vars.$color-primary,10%);
+      color: white;
+    }
+  }
+}

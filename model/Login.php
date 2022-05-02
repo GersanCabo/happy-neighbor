@@ -1,6 +1,7 @@
 <?php
     require_once(realpath($_SERVER['DOCUMENT_ROOT']).'/PHP/happy_neighbor/model/Connection.php');
     require_once(realpath($_SERVER['DOCUMENT_ROOT']).'/PHP/happy_neighbor/model/class/SessionToken.php');
+    require_once(realpath($_SERVER['DOCUMENT_ROOT']).'/PHP/happy_neighbor/model/crud/SessionTokenCRUD.php');
 
     class Login {
 

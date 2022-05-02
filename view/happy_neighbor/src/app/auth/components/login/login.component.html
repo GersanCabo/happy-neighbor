@@ -1,0 +1,36 @@
+<div class="content">
+  <div class="bg-shadow">
+    <div class="form">
+      <h1>HappyNeighbor</h1>
+      <div class="buttons-glued buttons-login">
+        <button (click)="loginForm = true" [ngClass]="{'active' : loginForm}">Log In</button>
+        <button (click)="loginForm = false" [ngClass]="{'active' : !loginForm}">Sign Up</button>
+      </div>
+      <div class="form-inputs" *ngIf="loginForm; else signForm">
+        <form [formGroup]="formLogin" (ngSubmit)="login()">
+          <input formControlName="mail" type="email" placeholder="Email Address">
+          <div *ngIf="formControls['mail'].touched && formControls['mail'].invalid" class="alert-form">
+            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['required']">Email is required.</div>
+            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['minlength']">The email must have a minimum of 5 characters.</div>
+            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['pattern']">the email does not follow a valid pattern. Example: example@example.ex</div>
+          </div>
+          <input formControlName="passUser" type="password" placeholder="Password">
+          <button type="submit">Log In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #signForm>
+  <div class="form-inputs" >
+    <form [formGroup]="formLogin" (ngSubmit)="login()">
+      <input type="text" placeholder="First Name">
+      <input type="text" placeholder="Last Name">
+      <input type="email" placeholder="Email Address">
+      <input type="password" placeholder="Password">
+      <button>Get started</button>
+    </form>
+  </div>
+</ng-template>

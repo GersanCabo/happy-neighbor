@@ -262,8 +262,8 @@ delimiter ;
 
 -- Inserciones de prueba
 
-INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$ANn0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
-INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (2,'admin','lasted','admin@gmail.com','$2y$10$An0hX3ENkfaFiFwDM9GgOEyQ58BwpVFEpJ63X2Of98456M6.ucja');
+INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$4OCGTlFVlgB9SqYHFZfCL.yx5Zniq4aOgYUgzl9Icil2GTd5gNGw2');
+INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (2,'admin','lasted','admin@gmail.com','$2y$10$4OCGTlFVlgB9SqYHFZfCL.yx5Zniq4aOgYUgzl9Icil2GTd5gNGw2');
 
 
 INSERT INTO community (id, name_community,user_creator_id) VALUES (1, 'community', 1);
