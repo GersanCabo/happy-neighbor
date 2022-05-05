@@ -47,6 +47,9 @@
         }
     }
 
+    /**
+     * Select the number of community users
+     */
     function selectNumberOfUsers() {
         if (checkUserInCommunity()) {
             $numberOfUsers = CommunityCRUD::selectNumberOfUsers($_POST['id']);

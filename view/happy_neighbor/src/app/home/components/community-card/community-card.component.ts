@@ -1,6 +1,5 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { Community } from 'src/app/global/class/Community';
 
 @Component({
   selector: 'app-community-card',
@@ -9,7 +8,7 @@ import { Community } from 'src/app/global/class/Community';
 })
 export class CommunityCardComponent implements OnInit {
 
-  @Input() community: Community|null = null;
+  //@Input() community: Community|null = null;
 
   constructor() { }
 
