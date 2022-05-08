@@ -1,1 +1,6 @@
-<div>hola</div>
+  <div *ngFor="let community of arrayCommunities">
+    <p>{{community.id}}</p>
+    <p>{{community.nameCommunity}}</p>
+    <p>{{community.totalUsers}}</p>
+    <hr>
+  </div>

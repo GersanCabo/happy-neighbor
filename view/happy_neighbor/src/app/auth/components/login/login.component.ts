@@ -39,6 +39,9 @@ export class LoginComponent implements OnInit {
     return this.formLogin.controls;
   }
 
+  /**
+   * Log in the user if the log in form is valid
+   */
   login() {
     if (this.formLogin.status == "VALID") {
       this.loginService.login(this.formLogin.value.mail, this.formLogin.value.passUser);

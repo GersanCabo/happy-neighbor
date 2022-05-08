@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ADDRESS_SERVER } from '../../global/address-server';
+import { ADDRESS_SERVER } from '../../global/constants/address-server';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,13 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
+  /**
+   * Log in the user into their account
+   *
+   * @param mail user mail
+   * @param passUser user password
+   * @returns Observable with the petition
+   */
   login(mail: string, passUser:string) {
     let formData: FormData = new FormData();
     formData.append("mail",mail);
@@ -29,6 +36,12 @@ export class LoginService {
 
   }
 
+  /**
+   * Process the log in response, save the session token
+   * and redirect to the main page
+   *
+   * @param response JSON Object with the user session token
+   */
   private loggedIn(response: object) {
     sessionStorage.setItem('session_token',response.toString());
     this.router.navigate(['/']);

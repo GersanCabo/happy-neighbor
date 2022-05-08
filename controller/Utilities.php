@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use LDAP\Result;
+
     require_once("../model/crud/SessionTokenCRUD.php");
 
     /**
@@ -8,14 +11,16 @@
      * @return mixed id user or false
      */
     function processToken(string $token) {
+        $result = false;
         $tokenInDB = SessionTokenCRUD::select($token);
-        $arrayAttr = $tokenInDB -> getAttributes();
-        $timePassed = time() - strtotime($arrayAttr['date_token']);
-        if ($timePassed > 86000) {
-            return false;
-        } else {
-            return $arrayAttr['id_user'];
+        if ($tokenInDB) {
+            $arrayAttr = $tokenInDB -> getAttributes();
+            $timePassed = time() - strtotime($arrayAttr['date_token']);
+            if ($timePassed < 86000) {
+                $result = $arrayAttr['id_user'];
+            }
         }
+        return $result;
     }
 
     /**

@@ -78,7 +78,23 @@
             if ($id) {
                 $communities = UserCRUD::selectUserCommunities($id);
                 echo json_encode($communities);
+            } else {
+                echo json_encode(0);
             }
+        }
+    }
+
+    /**
+     * Validate if token is validate or not
+     */
+    function validateToken() {
+        if (isset($_POST['session_token'])) {
+            $result = false;
+            $id = processToken($_POST['session_token']);
+            if ($id) {
+                $result = true;
+            }
+            sendJsonSucess($result);
         }
     }
 
@@ -97,6 +113,8 @@
                     select();
                 } elseif ($_POST['action'] == "selectUserCommunities") {
                     selectUserCommunities();
+                } elseif ($_POST['action'] == "validateToken") {
+                    validateToken();
                 }
             }
     }
