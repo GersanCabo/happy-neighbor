@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 })
 export class LoginService {
 
-  private url:string = ADDRESS_SERVER + "LoginController.php";
+  private urlLogin:string = ADDRESS_SERVER + "LoginController.php";
+  private urlUser:string = ADDRESS_SERVER + "UserController.php";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -25,15 +26,11 @@ export class LoginService {
     formData.append("mail",mail);
     formData.append("pass_user",passUser);
     return this.httpClient
-      .post(this.url, formData)
+      .post(this.urlLogin, formData)
       .subscribe({
         next: (response) => this.loggedIn(response),
         error: (error) => console.log(error)
     });
-  }
-
-  sendToken(sessionToken: string) {
-
   }
 
   /**
@@ -45,6 +42,18 @@ export class LoginService {
   private loggedIn(response: object) {
     sessionStorage.setItem('session_token',response.toString());
     this.router.navigate(['/']);
+  }
+
+  signUp(nameUser:string, lastName:string, mail:string, passUser:string) {
+    let formData: FormData = new FormData();
+    formData.append("action","insert");
+    formData.append("name_user", nameUser);
+    if (lastName) {
+      formData.append("last_name", lastName);
+    }
+    formData.append("mail", mail);
+    formData.append("pass_user",passUser);
+    return this.httpClient.post(this.urlUser, formData);
   }
 
 

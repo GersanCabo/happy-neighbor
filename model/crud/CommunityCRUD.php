@@ -106,7 +106,7 @@
         public static function selectCommunityUsers(int $idCommunity):array {
             $users = [];
             $db = Db::connect();
-            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity AND invitation_accepted=true;");
+            $usersCommunity = $db -> query("SELECT id_user, is_admin FROM user_community WHERE id_community=$idCommunity AND user_accepted=true AND community_accepted=true;");
             while ($user = $usersCommunity -> fetch(PDO::FETCH_ASSOC)) {
                 $userSelect = $db -> query("SELECT name_user, last_name, profile_picture, biography FROM user WHERE id=" . $user['id_user'] . ";");
                 if ($userAttr = $userSelect -> fetch(PDO::FETCH_ASSOC)) {
@@ -124,7 +124,7 @@
          */
         public static function selectNumberOfUsers(int $idCommunity):int {
             $db = Db::connect();
-            $numberOfUsersSentence = $db -> query("SELECT COUNT(id_user) FROM user_community WHERE id_community=$idCommunity AND invitation_accepted=true;");
+            $numberOfUsersSentence = $db -> query("SELECT COUNT(id_user) FROM user_community WHERE id_community=$idCommunity AND user_accepted=true AND community_accepted=true;");
             $number = $numberOfUsersSentence -> fetch(PDO::FETCH_ASSOC);
             return intval($number['COUNT(id_user)']);
         }
@@ -178,10 +178,10 @@
         public static function isAdmin(int $idUser, int $idCommunity) {
             $result = false;
             $db = Db::connect();
-            $userRoleSentence = $db -> query("SELECT is_admin, invitation_accepted FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity;");
+            $userRoleSentence = $db -> query("SELECT is_admin, user_accepted, community_accepted FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity;");
             while ($userRole = $userRoleSentence -> fetch(PDO::FETCH_ASSOC)) {
-                if (boolval($userRole['invitation_accepted'])) {
-                    $result = $userRole['is_admin'];
+                if (boolval($userRole['user_accepted']) && boolval($userRole['community_accepted'])) {
+                    $result = intval($userRole['is_admin']);
                 }
             }
             return $result;

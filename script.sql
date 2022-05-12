@@ -31,8 +31,9 @@ CREATE TABLE user_community (
     id_user INT NOT NULL,
     id_community INT NOT NULL,
     is_admin BOOL DEFAULT false,
-    invitation_accepted BOOL DEFAULT false,
     write_permission BOOL DEFAULT true,
+    user_accepted BOOL DEFAULT false,
+    community_accepted BOOL DEFAULT false,
     PRIMARY KEY (id_user, id_community),
     FOREIGN KEY (id_user) REFERENCES user(id),
     FOREIGN KEY (id_community) REFERENCES community(id)
@@ -165,7 +166,7 @@ CREATE TRIGGER user_community_insert_when_community_insert
     ON community
     FOR EACH ROW
 BEGIN
-    INSERT INTO user_community VALUES (NEW.user_creator_id, NEW.id, true, true, true);
+    INSERT INTO user_community VALUES (NEW.user_creator_id, NEW.id, true, true, true, true);
 END; $$
 delimiter ;
 
@@ -269,7 +270,7 @@ INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (2,'admin','
 INSERT INTO community (id, name_community,user_creator_id) VALUES (1, 'community', 1);
 INSERT INTO community (id, name_community,user_creator_id) VALUES (2, 'community2', 1);
 
-INSERT INTO user_community VALUES (2,1,false,true,true);
+INSERT INTO user_community VALUES (2,1,false,true,true, true);
 
 INSERT INTO session_token VALUES ('7c1ef4a0256611-1',null,1);
 INSERT INTO session_token VALUES ('7c1ef4a0256611-2',null,2);

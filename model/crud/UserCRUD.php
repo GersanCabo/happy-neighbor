@@ -121,9 +121,9 @@
         public static function selectUserCommunities(int $idUser) {
             $communities = [];
             $db = Db::connect();
-            $communitiesUser = $db -> query("SELECT user_community.id_community, community.name_community, user_community.is_admin FROM user_community INNER JOIN community ON user_community.id_community = community.id WHERE id_user=$idUser AND invitation_accepted=true;");
+            $communitiesUser = $db -> query("SELECT user_community.id_community, community.name_community, community.description_community, user_community.is_admin FROM user_community INNER JOIN community ON user_community.id_community = community.id WHERE id_user=$idUser AND user_accepted=true AND community_accepted=true;");
             while ($community = $communitiesUser -> fetch(PDO::FETCH_ASSOC)) {
-                $communities[] = [$community['id_community'],$community['name_community'],$community['is_admin']];
+                $communities[] = [$community['id_community'],$community['name_community'],$community['description_community'],$community['is_admin']];
             }
             return $communities;
         }

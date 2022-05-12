@@ -1,0 +1,20 @@
+@import '/src/assets/scss/variables.scss';
+
+.img-user-prs {
+  width: 50px;
+  border-radius: 100%;
+}
+
+//Bootstrap
+.navbar {
+  background-color: $color-primary !important;
+}
+
+.dropstart::marker {
+  font-size: 0px;
+}
+
+.button-img-user-prs {
+  background: none;
+  border: none;
+}

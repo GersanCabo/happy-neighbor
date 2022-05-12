@@ -8,14 +8,20 @@
       </div>
       <div class="form-inputs" *ngIf="loginForm; else signForm">
         <form [formGroup]="formLogin" (ngSubmit)="login()">
-          <input formControlName="mail" type="email" placeholder="Email Address">
+          <input formControlName="mail" type="email" placeholder="Email Address*">
           <div *ngIf="formControls['mail'].touched && formControls['mail'].invalid" class="alert-form">
             <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['required']">Email is required.</div>
             <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['minlength']">The email must have a minimum of 5 characters.</div>
             <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
-            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['pattern']">the email does not follow a valid pattern. Example: example@example.ex</div>
+            <div *ngIf="formControls['mail'].errors && formControls['mail'].errors['pattern']">The email does not follow a valid pattern. Example: example@example.ex</div>
           </div>
-          <input formControlName="passUser" type="password" placeholder="Password">
+          <input formControlName="passUser" type="password" placeholder="Password*">
+          <div *ngIf="formControls['passUser'].touched && formControls['passUser'].invalid" class="alert-form">
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['required']">Email is required.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['minlength']">The email must have a minimum of 5 characters.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['pattern']">Characters not valid</div>
+          </div>
           <button type="submit">Log In</button>
         </form>
       </div>
@@ -25,12 +31,35 @@
 
 <ng-template #signForm>
   <div class="form-inputs" >
-    <form [formGroup]="formLogin" (ngSubmit)="login()">
-      <input type="text" placeholder="First Name">
-      <input type="text" placeholder="Last Name">
-      <input type="email" placeholder="Email Address">
-      <input type="password" placeholder="Password">
-      <button>Get started</button>
+    <form [formGroup]="formSignUp" (ngSubmit)="signUp()">
+      <input formControlName="nameUser" type="text" placeholder="First Name*">
+      <div *ngIf="formControlsSignUp['nameUser'].touched && formControlsSignUp['nameUser'].invalid" class="alert-form">
+        <div *ngIf="formControlsSignUp['nameUser'].errors && formControlsSignUp['nameUser'].errors['required']">Name is required.</div>
+        <div *ngIf="formControlsSignUp['nameUser'].errors && formControlsSignUp['nameUser'].errors['minlength']">The name must have a minimum of 2 characters.</div>
+        <div *ngIf="formControlsSignUp['nameUser'].errors && formControlsSignUp['nameUser'].errors['maxlength']">The name must have a maximum of 50 characters.</div>
+        <div *ngIf="formControlsSignUp['nameUser'].errors && formControlsSignUp['nameUser'].errors['pattern']">Invalid name</div>
+      </div>
+      <input formControlName="lastName" type="text" placeholder="Last Name">
+      <div *ngIf="formControlsSignUp['lastName'].touched && formControlsSignUp['lastName'].invalid" class="alert-form">
+        <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['minlength']">The last name must have a minimum of 2 characters.</div>
+        <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+        <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['pattern']">Invalid last name</div>
+      </div>
+      <input formControlName="mailSignUp" type="email" placeholder="Email Address*">
+      <div *ngIf="formControlsSignUp['mailSignUp'].touched && formControlsSignUp['mailSignUp'].invalid" class="alert-form">
+        <div *ngIf="formControlsSignUp['mailSignUp'].errors && formControlsSignUp['mailSignUp'].errors['required']">Email is required.</div>
+        <div *ngIf="formControlsSignUp['mailSignUp'].errors && formControlsSignUp['mailSignUp'].errors['minlength']">The email must have a minimum of 5 characters.</div>
+        <div *ngIf="formControlsSignUp['mailSignUp'].errors && formControlsSignUp['mailSignUp'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+        <div *ngIf="formControlsSignUp['mailSignUp'].errors && formControlsSignUp['mailSignUp'].errors['pattern']">The email does not follow a valid pattern. Example: example@example.ex</div>
+      </div>
+      <input formControlName="passUserSignUp" type="password" placeholder="Password*">
+        <div *ngIf="formControlsSignUp['passUserSignUp'].touched && formControlsSignUp['passUserSignUp'].invalid" class="alert-form">
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['required']">Email is required.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['minlength']">The email must have a minimum of 5 characters.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['pattern']">Characters not valid</div>
+        </div>
+      <button type="submit">Get started</button>
     </form>
   </div>
 </ng-template>

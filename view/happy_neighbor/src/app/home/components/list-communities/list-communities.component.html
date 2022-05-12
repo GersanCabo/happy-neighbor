@@ -1,6 +1,9 @@
-  <div *ngFor="let community of arrayCommunities">
-    <p>{{community.id}}</p>
-    <p>{{community.nameCommunity}}</p>
-    <p>{{community.totalUsers}}</p>
-    <hr>
+<app-header></app-header>
+<div class="container py-5">
+  <div class="row g-3">
+    <div class="col col-12 col-md-6 col-xl-4 col-xxl-3" *ngFor="let community of arrayCommunities">
+      <app-community-card [community]="community"></app-community-card>
+    </div>
   </div>
+</div>
+

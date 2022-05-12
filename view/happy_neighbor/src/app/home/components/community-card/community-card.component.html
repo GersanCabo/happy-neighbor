@@ -1,3 +1,14 @@
-<div class="community-card">
-  <h4></h4>
-</div>
+<a class="link-card-prs" href="google.com">
+  <div class="card h-100 m-auto width-card-prs">
+    <div class="card-body d-flex flex-column">
+      <div>
+        <h5 class="card-title">{{community?.nameCommunity}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">#{{community?.id}}</h6>
+        <p class="card-text">{{community?.descriptionCommunity | shortenText}}</p>
+      </div>
+      <div class="mt-auto">
+        <p class="card-text text-end"><strong>Total users: {{community?.totalUsers}}</strong></p>
+      </div>
+    </div>
+  </div>
+</a>

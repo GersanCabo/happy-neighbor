@@ -13,6 +13,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'community/:id',
+    component: ListCommunitiesComponent //Esto hay que cambiarlo
+  },
+  {
     path: '**',
     component: ListCommunitiesComponent
   }

@@ -1,0 +1,5 @@
+- Cuando intentas crear una cuenta con un email que ya existe en la base de datos, te sale una alerta, mejora ese aviso.
+
+- Cuando un usuario no tiene comunidades le sale la pantalla en blanco, ponle algo más "visual".
+
+- Crear una tabla para las invitaciones usuario-comunidad

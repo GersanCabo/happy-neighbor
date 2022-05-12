@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserCommunitiesService } from '../../services/user-communities.service';
-import { Router } from '@angular/router';
-import { ValidateTokenService } from 'src/app/global/services/validate-token.service';
 import { CommunityList } from '../../class/CommunityList';
 
 @Component({
@@ -15,16 +13,13 @@ export class ListCommunitiesComponent implements OnInit {
   sessionToken:string|null = null;
   arrayCommunities:Array<CommunityList>= [];
 
-  constructor(private router: Router, private userCommunitiesService: UserCommunitiesService, private validateTokenService: ValidateTokenService) {
+  constructor(private userCommunitiesService: UserCommunitiesService) {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
   ngOnInit(): void {
     if (this.sessionToken != null) {
-      this.validateToken(this.sessionToken);
       this.downUserCommunities(this.sessionToken);
-    } else {
-      this.router.navigate(['/login']);
     }
   }
 
@@ -42,7 +37,8 @@ export class ListCommunitiesComponent implements OnInit {
             next: (response) => this.arrayCommunities.push({
               id: communityData[0],
               nameCommunity: communityData[1],
-              isAdmin: communityData[2],
+              descriptionCommunity: communityData[2],
+              isAdmin: communityData[3],
               totalUsers: parseInt(response.toString())
             }),
             error: (error) => console.log(error)
@@ -50,15 +46,6 @@ export class ListCommunitiesComponent implements OnInit {
         });
       },
       error: (errorSelectUserCommunities) => console.log(errorSelectUserCommunities)
-    });;
-  }
-
-  /**
-   * Check if the session token is validate
-   *
-   * @param sessionToken user session token
-   */
-  validateToken(sessionToken: string) {
-    this.validateTokenService.validateToken(sessionToken);
+    });
   }
 }

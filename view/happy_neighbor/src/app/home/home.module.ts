@@ -4,19 +4,23 @@ import { ListCommunitiesComponent } from './components/list-communities/list-com
 import { CommunityCardComponent } from './components/community-card/community-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ShortenTextPipe } from './pipes/shorten-text.pipe';
+import { SharedModule } from '../shared/shared.module';
 
 
 
 @NgModule({
   declarations: [
     ListCommunitiesComponent,
-    CommunityCardComponent
+    CommunityCardComponent,
+    ShortenTextPipe
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     ListCommunitiesComponent
