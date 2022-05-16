@@ -110,7 +110,7 @@
             while ($user = $usersCommunity -> fetch(PDO::FETCH_ASSOC)) {
                 $userSelect = $db -> query("SELECT name_user, last_name, profile_picture, biography FROM user WHERE id=" . $user['id_user'] . ";");
                 if ($userAttr = $userSelect -> fetch(PDO::FETCH_ASSOC)) {
-                    $users[$user['id_user']] = [$userAttr,$user['is_admin']];
+                    $users[] = [$userAttr,$user];
                 }
             }
             return $users;
@@ -185,6 +185,16 @@
                 }
             }
             return $result;
+        }
+
+        public static function selectCommunityUser(int $idUser):array {
+            $userInfo = [];
+            $db = Db::connect();
+            $userIsAdmin = $db -> query("SELECT user_community.is_admin, user.name_user, user.last_name, user.profile_picture FROM user_community INNER JOIN user ON user_community.id_user = user.id WHERE id_user=$idUser AND user_accepted=true AND community_accepted=true;");
+            while ($user = $userIsAdmin -> fetch(PDO::FETCH_ASSOC)) {
+                $userInfo = $user;
+            }
+            return $userInfo;
         }
     }
 ?>

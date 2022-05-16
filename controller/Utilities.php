@@ -1,8 +1,5 @@
 <?php
-
-use LDAP\Result;
-
-    require_once("../model/crud/SessionTokenCRUD.php");
+    require_once(realpath($_SERVER['DOCUMENT_ROOT']).'/PHP/happy_neighbor/model/crud/SessionTokenCRUD.php');
 
     /**
      * Search the incoming token in the table and check if it is expired

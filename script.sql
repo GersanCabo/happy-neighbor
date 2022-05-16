@@ -274,3 +274,6 @@ INSERT INTO user_community VALUES (2,1,false,true,true, true);
 
 INSERT INTO session_token VALUES ('7c1ef4a0256611-1',null,1);
 INSERT INTO session_token VALUES ('7c1ef4a0256611-2',null,2);
+
+INSERT INTO publication VALUES (1,"primero", 2, null, null, 1,1);
+INSERT INTO publication VALUES (2,"segundo", 1, null, 1, 2, 1);

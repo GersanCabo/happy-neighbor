@@ -124,5 +124,47 @@
             }
             return $result;
         }
+
+        /**
+         * Select all publications of a community
+         * 
+         * @param int $idCommunity community id
+         * @param int $numPage start page num
+         * @return array $publications list of community publications
+         */
+        public static function selectCommunityPublications(int $idCommunity, int $numPage) {
+            $publications = [];
+            $db = Db::connect();
+            $isLastPage = false;
+            $max = self::countCommunityPublications($idCommunity);
+            $startPage = 0;
+            if ($numPage > 0) {
+                $startPage = $numPage * 15;
+            }
+            $endPage = $startPage + 15;
+            if ($endPage >= $max) {
+                $endPage = $max;
+                $isLastPage = true;
+            } 
+            $result = $db -> query("SELECT * FROM publication WHERE id_community=$idCommunity ORDER BY date_publication LIMIT $startPage, $endPage");
+            while ($arrayPublication = $result -> fetch(PDO::FETCH_ASSOC)) {
+                $publication = Publication::getPublication($arrayPublication);
+                $publications[] = $publication->getAttributes();
+            }
+            return [$publications,$isLastPage];
+        }
+
+        /**
+         * Count all publications of a community
+         */
+        public static function countCommunityPublications(int $idCommunity) {
+            $countPublications = 0;
+            $db = DB::connect();
+            $result = $db -> query("SELECT COUNT(*) FROM publication WHERE id_community=$idCommunity");
+            if ($countArray = $result -> fetch(PDO::FETCH_ASSOC)) {
+                $countPublications = intval($countArray["COUNT(*)"]);
+            }
+            return $countPublications;
+        } 
     }
 ?>
