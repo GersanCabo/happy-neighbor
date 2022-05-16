@@ -1,0 +1,9 @@
+<div>
+  <div class="div-publications" *ngIf="arrayPublications.length > 0; else emptyPublications">
+    <app-publication-card *ngFor="let publication of arrayPublications" [publication]="publication"></app-publication-card>
+  </div>
+
+  <ng-template #emptyPublications>
+    <p>No publication yet...</p>
+  </ng-template>
+</div>

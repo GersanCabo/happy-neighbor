@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ValidateTokenService {
 
-  private url:string = ADDRESS_SERVER + "UserController.php";
+  private url:string = ADDRESS_SERVER + "UserController/validateToken.php";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 

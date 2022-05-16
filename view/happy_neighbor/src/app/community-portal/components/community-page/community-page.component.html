@@ -1,0 +1,35 @@
+<app-header></app-header>
+<div class="container-fluid py-5 m-0 px-0" *ngIf="community != null">
+  <div class="row bg-name-community">
+    <div class="col d-flex flex-column align-items-center p-0">
+      <h1>{{community?.nameCommunity}}</h1>
+      <p>{{community?.descriptionCommunity}}</p>
+    </div>
+  </div>
+  <div class="row bg-info-community py-2 m-0">
+      <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+        <div [ngClass]="optionSection == 1 ? 'bg-button-prs' : ''">
+          <button (click)="optionSection = 1" type="button">Publications</button>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+        <div [ngClass]="optionSection == 2 ? 'bg-button-prs' : ''">
+          <button (click)="optionSection = 2" type="button">Votes</button>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+        <div [ngClass]="optionSection == 3 ? 'bg-button-prs' : ''">
+          <button (click)="optionSection = 3" type="button">Info</button>
+        </div>
+      </div>
+  </div>
+  <div *ngIf="optionSection === 1">
+    <app-publications [idCommunity]="community.id"></app-publications>
+  </div>
+  <div *ngIf="optionSection === 2">
+    <app-votes></app-votes>
+  </div>
+  <div *ngIf="optionSection === 3">
+    <app-info-community></app-info-community>
+  </div>
+</div>

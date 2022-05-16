@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AuthModule } from './auth/auth.module';
+import { CommunityPortalModule } from './community-portal/community-portal.module';
 import { HomeModule } from './home/home.module';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HomeModule } from './home/home.module';
     AppRoutingModule,
     AuthModule,
     HomeModule,
+    CommunityPortalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

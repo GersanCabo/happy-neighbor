@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class LoginService {
 
   private urlLogin:string = ADDRESS_SERVER + "LoginController.php";
-  private urlUser:string = ADDRESS_SERVER + "UserController.php";
+  private urlUser:string = ADDRESS_SERVER + "UserController/insert.php";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 

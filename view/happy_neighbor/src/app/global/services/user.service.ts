@@ -7,14 +7,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
 
-  private urlUser:string = ADDRESS_SERVER + "UserController.php";
+  private urlUserControllerSelect:string = ADDRESS_SERVER + "UserController/select.php";
 
   constructor(private httpClient: HttpClient) { }
 
   select(sessionToken:string) {
     let formData: FormData = new FormData();
-    formData.append('action','select');
     formData.append("session_token",sessionToken);
-    return this.httpClient.post(this.urlUser, formData);
+    return this.httpClient.post(this.urlUserControllerSelect, formData);
   }
 }

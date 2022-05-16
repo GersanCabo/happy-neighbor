@@ -1,0 +1,52 @@
+<div class="row my-5 m-0" *ngIf="publication != null">
+  <div class="col px-0">
+    <div class="card m-3 m-xl-auto width-card-prs">
+      <div class="card-header">
+        <div *ngIf="publication.commentTo != null" class="py-3">
+          <h6>Commented to:</h6>
+          <div class="card m-auto">
+            <div class="card-header d-flex justify-content-between">
+              <span>
+                <span class="user-name-prs">{{userPublicationCommented?.nameUser}} {{userPublicationCommented?.lastName}} </span>
+                <span class="icon" *ngIf="userPublicationCommented?.isAdmin">
+                  <em class="bi bi-award"></em>
+                </span>
+              </span>
+              <span>#{{publication.commentTo.idUser}}</span>
+            </div>
+            <div class="card-body">
+              <div>
+                <p>{{publication.commentTo.textPublication}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>
+            <span class="user-name-prs">{{userPublication?.nameUser}} {{userPublication?.lastName}} </span>
+            <span class="icon" *ngIf="userPublication?.isAdmin">
+              <em class="bi bi-award"></em>
+            </span>
+          </span>
+          <span>#{{publication.idUser}}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div>
+          <p>{{publication.textPublication}}</p>
+        </div>
+        <div class="d-flex justify-content-end gap-5 pe-5">
+          <span class="date">
+            {{publication.datePublication}}
+          </span>
+          <span class="like">
+            <span class="icon">
+              <em class="bi bi-heart"></em>
+            </span>
+            <span>{{publication.likes}}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

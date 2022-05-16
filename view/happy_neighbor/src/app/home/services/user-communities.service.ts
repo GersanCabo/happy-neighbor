@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ADDRESS_SERVER } from 'src/app/global/constants/address-server';
 import { HttpClient } from '@angular/common/http';
-import { CommunityList } from '../class/CommunityList';
 
 
 @Injectable({
@@ -9,8 +8,8 @@ import { CommunityList } from '../class/CommunityList';
 })
 export class UserCommunitiesService {
 
-  private urlUser:string = ADDRESS_SERVER + "UserController.php";
-  private urlCommunity:string = ADDRESS_SERVER + "UserCommunityController.php";
+  private urlUser:string = ADDRESS_SERVER + "UserController/selectUserCommunities.php";
+  private urlCommunity:string = ADDRESS_SERVER + "UserCommunityController/selectNumberOfUsers.php";
 
   constructor(private httpClient: HttpClient) { }
 
