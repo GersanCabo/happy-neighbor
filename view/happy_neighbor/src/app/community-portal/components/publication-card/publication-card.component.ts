@@ -1,9 +1,11 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Publication } from '../../class/Publication';
 import { UserCommunity } from '../../class/UserCommunity';
 import { CommunityService } from '../../services/community.service';
+import { PublicationService } from '../../services/publication.service';
 
 @Component({
   selector: 'app-publication-card',
@@ -16,20 +18,33 @@ export class PublicationCardComponent implements OnInit {
   sessionToken:string|null = null;
   userPublication: UserCommunity|null = null;
   userPublicationCommented: UserCommunity|null = null;
+  idCommunity: number = 0;
 
-  constructor(private route: ActivatedRoute, private communityService: CommunityService) {
+  formInsertPublication = new FormGroup({
+    textPublication: new FormControl('',[
+      Validators.required,
+      Validators.maxLength(300),
+      Validators.pattern(/.+/im)
+    ])
+  });
+
+  constructor(private route: ActivatedRoute, private communityService: CommunityService, private publicationService: PublicationService) {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe( (paramMap: any) => {
       const { params } = paramMap;
-      let idCommunity = params.id;
-      this.selectCommunityUser(idCommunity);
+      this.idCommunity = params.id;
+      this.selectCommunityUser(this.idCommunity);
       if (this.publication?.commentTo != null) {
-        this.selectCommunityUser(idCommunity,true);
+        this.selectCommunityUser(this.idCommunity,true);
       }
     })
+  }
+
+  get formControlsPublication() {
+    return this.formInsertPublication.controls;
   }
 
   selectCommunityUser(idCommunity: number, commented: boolean = false) {
@@ -41,22 +56,40 @@ export class PublicationCardComponent implements OnInit {
       this.communityService.selectCommunityUser(this.sessionToken,idCommunity,idUser).subscribe({
         next: (responseSelectCommunityUser) => {
           let arrayCommunityUser = Object.assign(responseSelectCommunityUser);
-          console.log(arrayCommunityUser);
-          let userCommunity: UserCommunity = {
-            nameUser: arrayCommunityUser['name_user'],
-            lastName: arrayCommunityUser['last_name'],
-            profilePicture: arrayCommunityUser['profile_picture'],
-            isAdmin: arrayCommunityUser['is_admin'],
-            biography: null
-          }
-          if (commented) {
-            this.userPublicationCommented = userCommunity;
-          } else {
-            this.userPublication = userCommunity;
+          if (idUser != undefined) {
+            let userCommunity: UserCommunity = {
+              id: idUser,
+              nameUser: arrayCommunityUser['name_user'],
+              lastName: arrayCommunityUser['last_name'],
+              profilePicture: arrayCommunityUser['profile_picture'],
+              isAdmin: arrayCommunityUser['is_admin'],
+              biography: null
+            }
+            if (commented) {
+              this.userPublicationCommented = userCommunity;
+            } else {
+              this.userPublication = userCommunity;
+            }
           }
         },
         error: (errorSelectCommunityUser) => (console.log(errorSelectCommunityUser))
       });
+    }
+  }
+
+  insertPublication() {
+    if (this.formInsertPublication.status == "VALID" && this.sessionToken != null && this.idCommunity > 0) {
+      this.publicationService.insertPublication(
+        this.sessionToken,
+        this.idCommunity,
+        this.formInsertPublication.value.textPublication,
+        this.publication?.id
+      ).subscribe({
+        next: (responseInsertPublication) => {
+          console.log(responseInsertPublication);
+        },
+        error: (errorInsertPublication) => console.log(errorInsertPublication)
+      })
     }
   }
 

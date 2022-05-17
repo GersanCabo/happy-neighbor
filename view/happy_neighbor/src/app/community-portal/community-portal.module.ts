@@ -6,6 +6,7 @@ import { PublicationsComponent } from './components/publications/publications.co
 import { VotesComponent } from './components/votes/votes.component';
 import { InfoCommunityComponent } from './components/info-community/info-community.component';
 import { PublicationCardComponent } from './components/publication-card/publication-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -19,7 +20,9 @@ import { PublicationCardComponent } from './components/publication-card/publicat
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class CommunityPortalModule { }

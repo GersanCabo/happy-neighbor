@@ -3,6 +3,34 @@
     <app-publication-card *ngFor="let publication of arrayPublications" [publication]="publication"></app-publication-card>
   </div>
 
+  <!-- Button trigger modal -->
+  <button type="button" class="btn-float-prs" data-bs-toggle="modal" data-bs-target="#insertPublicationModal">
+    <em class="bi bi-plus-lg"></em>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="insertPublicationModal" tabindex="-1" aria-labelledby="insertPublicationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="insertPublicationModalLabel">Post it!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form-prs" [formGroup]="formInsertPublication" (ngSubmit)="insertPublication()">
+            <textarea formControlName="textPublication" rows="8"></textarea>
+            <div *ngIf="formControlsPublication['textPublication'].touched && formControlsPublication['textPublication'].invalid" class="alert-form">
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['required']">Post Empty.</div>
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['maxlength']">The post must have a maximum of 300 characters.</div>
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['pattern']">The post have invalid characters.</div>
+            </div>
+            <button type="submit" data-bs-dismiss="modal">POST!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <ng-template #emptyPublications>
     <p>No publication yet...</p>
   </ng-template>

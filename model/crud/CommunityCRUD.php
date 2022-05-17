@@ -187,6 +187,12 @@
             return $result;
         }
 
+        /**
+         * Select a community user
+         * 
+         * @param int $idUser user id
+         * @return array $userInfo array with user data or empty
+         */
         public static function selectCommunityUser(int $idUser):array {
             $userInfo = [];
             $db = Db::connect();
@@ -195,6 +201,59 @@
                 $userInfo = $user;
             }
             return $userInfo;
+        }
+
+        /**
+         * Check if exist a invitation in the table
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return $result a array with data or false
+         */
+        public static function existInvitation(int $idUser, int $idCommunity) {
+            $result = false;
+            $db = Db::connect();
+            $existInvitationSentence = $db -> query("SELECT user_accepted, community_accepted FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity;");
+            if ($fetchExistInvitationSentence = $existInvitationSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $result = $fetchExistInvitationSentence;
+            }
+            return $result;
+        }
+
+        /**
+         * Insert a new invitation
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return bool $result if invitation inserted or not
+         */
+        public static function insertInvitation(int $idUser, int $idCommunity):bool {
+            $result = false;
+            $db = Db::connect();
+            $insertInvitationSentence = $db -> prepare("INSERT INTO user_community (id_user, id_community, community_accepted) VALUES ($idUser, $idCommunity, true);");
+            $result = $insertInvitationSentence -> execute();
+            return $result;
+        }
+
+        /**
+         * Select all sended invitations and pending requests
+         * 
+         * @param int $idCommunity id community
+         * @return array with invitations and requests or empty
+         */
+        public static function selectInvitations(int $idCommunity):array {
+            $arraySended = [];
+            $arrayReceived = [];
+            $db = Db::connect();
+            $sendedInvitationsSentence = $db -> query("SELECT user.id, user.name_user, user.last_name, user.profile_picture, user.biography, user_community.is_admin FROM user_community INNER JOIN user ON user_community.id_user = user.id WHERE id_community=$idCommunity AND user_accepted=false;");
+            $receivedRequestsSentence = $db -> query("SELECT user.id, user.name_user, user.last_name, user.profile_picture, user.biography, user_community.is_admin FROM user_community INNER JOIN user ON user_community.id_user = user.id WHERE id_community=$idCommunity AND community_accepted=false;");
+            while ($fetchSendedInvitationsSentence = $sendedInvitationsSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $arraySended[] = $fetchSendedInvitationsSentence;
+            }
+            while ($fetchReceivedRequestsSentence = $receivedRequestsSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $arrayReceived[] = $fetchReceivedRequestsSentence;
+            }
+            return [$arrayReceived,$arraySended];
         }
     }
 ?>

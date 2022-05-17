@@ -1,7 +1,7 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Publication } from '../../class/Publication';
-import { CommunityService } from '../../services/community.service';
 import { PublicationService } from '../../services/publication.service';
 
 @Component({
@@ -13,7 +13,15 @@ export class PublicationsComponent implements OnInit {
 
   @Input() idCommunity: number = 0;
   sessionToken:string|null = null;
-  arrayPublications:Array<Publication> = []
+  arrayPublications:Array<Publication> = [];
+
+  formInsertPublication = new FormGroup({
+    textPublication: new FormControl('',[
+      Validators.required,
+      Validators.maxLength(300),
+      Validators.pattern(/.+/im)
+    ])
+  });
 
   constructor(private publicationService: PublicationService) {
     this.sessionToken = sessionStorage.getItem('session_token');
@@ -21,6 +29,10 @@ export class PublicationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectPublications();
+  }
+
+  get formControlsPublication() {
+    return this.formInsertPublication.controls;
   }
 
   /**
@@ -46,6 +58,15 @@ export class PublicationsComponent implements OnInit {
               this.arrayPublications.push(publication);
             }
           });
+          this.arrayPublications.sort((a, b) => {
+            let result:number = 0;
+            if (Date.parse(a.datePublication) > Date.parse(b.datePublication)) {
+              result = -1;
+            } else if (Date.parse(a.datePublication) < Date.parse(b.datePublication)) {
+              result = 1;
+            }
+            return result;
+          })
         },
         error: (errorSelectPublications) => console.log(errorSelectPublications)
       });
@@ -79,9 +100,33 @@ export class PublicationsComponent implements OnInit {
             idUser: publicationData['id_user']
           }
           this.arrayPublications.push(publication);
+          this.arrayPublications.sort((a, b) => {
+            let result:number = 0;
+            if (Date.parse(a.datePublication) > Date.parse(b.datePublication)) {
+              result = -1;
+            } else if (Date.parse(a.datePublication) < Date.parse(b.datePublication)) {
+              result = 1;
+            }
+            return result;
+          })
         },
         error: (errorSelectPublication) => console.log(errorSelectPublication)
       });
+    }
+  }
+
+  insertPublication() {
+    if (this.formInsertPublication.status == "VALID" && this.sessionToken != null) {
+      this.publicationService.insertPublication(
+        this.sessionToken,
+        this.idCommunity,
+        this.formInsertPublication.value.textPublication
+      ).subscribe({
+        next: (responseInsertPublication) => {
+          console.log(responseInsertPublication);
+        },
+        error: (errorInsertPublication) => console.log(errorInsertPublication)
+      })
     }
   }
 

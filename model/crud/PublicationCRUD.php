@@ -146,7 +146,7 @@
                 $endPage = $max;
                 $isLastPage = true;
             } 
-            $result = $db -> query("SELECT * FROM publication WHERE id_community=$idCommunity ORDER BY date_publication LIMIT $startPage, $endPage");
+            $result = $db -> query("SELECT * FROM publication WHERE id_community=$idCommunity ORDER BY date_publication DESC LIMIT $startPage, $endPage");
             while ($arrayPublication = $result -> fetch(PDO::FETCH_ASSOC)) {
                 $publication = Publication::getPublication($arrayPublication);
                 $publications[] = $publication->getAttributes();

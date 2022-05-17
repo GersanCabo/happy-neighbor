@@ -1,1 +1,55 @@
-<p>info-community works!</p>
+<div>
+  <div class="div-info">
+    <div class="div-admin" *ngIf="this.isAdmin">
+      <h3>Received requests</h3>
+      <div class="row" *ngIf="receivedRequests.length > 0; else emptySection">
+        <div class="col received-requests" *ngFor="let receivedRequest of receivedRequests">
+          <p>hola</p>
+        </div>
+      </div>
+      <h3>Sended invitations</h3>
+      <div class="row" *ngIf="sendedInvitations.length > 0; else emptySection">
+        <div class="col sended-invitations" *ngFor="let sendedInvitation of sendedInvitations">
+          <div class="card card-admin-prs">
+            <div class="card-body">
+              <h5 class="card-title">{{sendedInvitation.nameUser}} <span>#{{sendedInvitation.id}}</span></h5>
+              <p class="card-text">{{sendedInvitation.biography}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  <button *ngIf="this.isAdmin" type="button" class="btn-float-prs" data-bs-toggle="modal" data-bs-target="#insertInvitationModal">
+    <em class="bi bi-plus-lg"></em>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="insertInvitationModal" tabindex="-1" aria-labelledby="insertInvitationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="insertInvitationModalLabel">Add a new user</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form-prs" [formGroup]="formInviteUser" (ngSubmit)="insertInvitation()">
+            <input type="number" class="form-control" formControlName="userId" placeholder="ID User"/>
+            <div *ngIf="formControlsInsertInvitation['userId'].touched && formControlsInsertInvitation['userId'].invalid" class="alert-form">
+              <div *ngIf="formControlsInsertInvitation['userId'].errors && formControlsInsertInvitation['userId'].errors['required']">Empty</div>
+              <div *ngIf="formControlsInsertInvitation['userId'].errors && formControlsInsertInvitation['userId'].errors['pattern']">Only number</div>
+            </div>
+            <button type="submit" data-bs-dismiss="modal">Invite</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #emptySection>
+  <p>Empty...</p>
+</ng-template>

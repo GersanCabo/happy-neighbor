@@ -1,8 +1,10 @@
+@import '/src/assets/scss/variables.scss';
+
 .width-card-prs {
   max-width: 100%;
 }
 
-.like {
+.like, .comment {
   font-size: 1.2em;
   .icon {
     margin: 0px 4px;
@@ -11,6 +13,33 @@
 
 .user-name-prs {
   font-weight: bold;
+}
+
+.btn-comment-prs {
+  border: none;
+  background-color: transparent;
+}
+
+.form-insert-publication {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 10px;
+  button {
+    max-width: 200px;
+    margin: auto;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: $color-primary;
+    border: 0px;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease-out 100ms, color 0.3s ease-out 100ms;
+    &:hover {
+      color: white;
+    }
+  }
 }
 
 // Small devices (landscape phones, 576px and up)

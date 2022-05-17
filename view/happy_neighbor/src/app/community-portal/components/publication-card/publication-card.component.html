@@ -39,6 +39,10 @@
           <span class="date">
             {{publication.datePublication}}
           </span>
+            <!-- Button trigger modal -->
+          <button class="comment" type="button" class="btn-comment-prs" data-bs-toggle="modal" data-bs-target="#insertPublicationModal">
+            <em class="bi bi-chat-left"></em>
+          </button>
           <span class="like">
             <span class="icon">
               <em class="bi bi-heart"></em>
@@ -50,3 +54,44 @@
     </div>
   </div>
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="insertPublicationModal" tabindex="-1" aria-labelledby="insertPublicationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="insertPublicationModalLabel">Post it!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card m-3 m-xl-auto width-card-prs">
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <span>
+                  <span class="user-name-prs">{{userPublication?.nameUser}} {{userPublication?.lastName}} </span>
+                  <span class="icon" *ngIf="userPublication?.isAdmin">
+                    <em class="bi bi-award"></em>
+                  </span>
+                </span>
+                <span>#{{publication?.idUser}}</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div>
+                <p>{{publication?.textPublication}}</p>
+              </div>
+            </div>
+          </div>
+          <form class="form-insert-publication" [formGroup]="formInsertPublication" (ngSubmit)="insertPublication()">
+            <textarea formControlName="textPublication" rows="8"></textarea>
+            <div *ngIf="formControlsPublication['textPublication'].touched && formControlsPublication['textPublication'].invalid" class="alert-form">
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['required']">Post Empty.</div>
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['maxlength']">The post must have a maximum of 300 characters.</div>
+              <div *ngIf="formControlsPublication['textPublication'].errors && formControlsPublication['textPublication'].errors['pattern']">The post have invalid characters.</div>
+            </div>
+            <button type="submit" data-bs-dismiss="modal">POST!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
