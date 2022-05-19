@@ -168,5 +168,58 @@
             }
             return [$isPossibleRemoveUser, $communitiesToRemove];
         }
+
+        /**
+         * Select all sended invitations and pending requests
+         * 
+         * @param int $idUser id user
+         * @return array with invitations and requests or empty
+         */
+        public static function selectRequests(int $idUser):array {
+            $arraySended = [];
+            $arrayReceived = [];
+            $db = Db::connect();
+            $receivedInvitationsSentence = $db -> query("SELECT community.id, community.name_community, community.description_community FROM user_community INNER JOIN community ON user_community.id_community = community.id WHERE id_user=$idUser AND user_accepted=false;");
+            $sendedRequestsSentence = $db -> query("SELECT community.id, community.name_community, community.description_community FROM user_community INNER JOIN community ON user_community.id_community = community.id WHERE id_user=$idUser AND community_accepted=false;");
+            while ($fetchReceivedInvitationsSentence = $receivedInvitationsSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $arrayReceived[] = $fetchReceivedInvitationsSentence;
+            }
+            while ($fetchSendedRequestsSentence = $sendedRequestsSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $arraySended[] = $fetchSendedRequestsSentence;
+            }
+            return [$arrayReceived,$arraySended];
+        }
+
+        /**
+         * Check if exist a request in the table
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return $result a array with data or false
+         */
+        public static function existRequest(int $idUser, int $idCommunity) {
+            $result = false;
+            $db = Db::connect();
+            $existRequestSentence = $db -> query("SELECT user_accepted, community_accepted FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity;");
+            if ($fetchExistRequestSentence = $existRequestSentence -> fetch(PDO::FETCH_ASSOC)) {
+                $result = $fetchExistRequestSentence;
+            }
+            return $result;
+        }
+
+        /**
+         * Insert a new request
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return bool $result if request inserted or not
+         */
+        public static function insertRequest(int $idUser, int $idCommunity): bool {
+            $result = false;
+            $db = Db::connect();
+            $insertRequestSentence = $db -> prepare("INSERT INTO user_community (id_user, id_community, user_accepted) VALUES ($idUser, $idCommunity, true);");
+            $result = $insertRequestSentence -> execute();
+            return $result;
+        }
     }
 ?>

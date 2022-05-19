@@ -5,5 +5,34 @@
       <app-community-card [community]="community"></app-community-card>
     </div>
   </div>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn-float-prs" data-bs-toggle="modal" data-bs-target="#addCommunityModal">
+    <em class="bi bi-patch-plus-fill"></em>
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addCommunityModal" tabindex="-1" aria-labelledby="addCommunityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCommunityModalLabel">Post it!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form-prs" [formGroup]="formSendRequest" (ngSubmit)="insertRequest()">
+            <input type="number" class="form-control" formControlName="communityId" placeholder="ID User"/>
+            <div *ngIf="formControlsInsertRequest['communityId'].touched && formControlsInsertRequest['communityId'].invalid" class="alert-form">
+              <div *ngIf="formControlsInsertRequest['communityId'].errors && formControlsInsertRequest['communityId'].errors['required']">Empty</div>
+              <div *ngIf="formControlsInsertRequest['communityId'].errors && formControlsInsertRequest['communityId'].errors['pattern']">Only number</div>
+            </div>
+            <button type="submit" data-bs-dismiss="modal">Invite</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
+
 

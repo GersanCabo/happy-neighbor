@@ -26,4 +26,9 @@ export class AdminService {
     formData.append("id",idCommunity.toString());
     return this.httpClient.post(this.urlAdminCommunityControllerSelectInvitations,formData);
   }
+
+  processRequest(sessionToken: string, isAccept: boolean) {
+    let formData: FormData = new FormData();
+    formData.append("session_token",sessionToken);
+  }
 }

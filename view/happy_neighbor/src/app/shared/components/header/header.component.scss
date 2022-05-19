@@ -1,10 +1,5 @@
 @import '/src/assets/scss/variables.scss';
 
-.img-user-prs {
-  width: 50px;
-  border-radius: 100%;
-}
-
 //Bootstrap
 .navbar {
   background-color: $color-primary !important;
@@ -17,4 +12,32 @@
 .button-img-user-prs {
   background: none;
   border: none;
+  em {
+    font-size: 30px;
+    color: $color-secundary;
+  }
+}
+
+.button-card-prs {
+  background-color: transparent;
+  border: none;
+}
+
+.button-accept-prs{
+  margin-right: 10px;
+  em {
+    color: green;
+    font-size: 35px;
+  }
+}
+
+.button-remove-prs {
+  em {
+    color: red;
+    font-size: 35px;
+  }
+}
+
+.card-title {
+  margin: 0px;
 }

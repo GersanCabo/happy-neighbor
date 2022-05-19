@@ -1,0 +1,17 @@
+<div class="row m-0">
+  <div class="col-12 col-md-6 col-lg- m-0 mb-3 received-requests">
+    <div class="card card-admin-prs">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <h5 class="card-title">{{receivedRequest.nameUser}} <span>#{{receivedRequest.id}}</span></h5>
+        <span>
+          <button class="button-card-prs button-accept-prs">
+            <em class="bi bi-check-square" (click)="processRequest(receivedRequest.id, true)"></em>
+          </button>
+          <button class="button-card-prs button-remove-prs">
+            <em class="bi bi-trash3" (click)="processRequest(receivedRequest.id)"></em>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

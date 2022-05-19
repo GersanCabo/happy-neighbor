@@ -23,13 +23,15 @@
         </div>
       </div>
   </div>
-  <div *ngIf="optionSection === 1">
-    <app-publications [idCommunity]="community.id"></app-publications>
-  </div>
-  <div *ngIf="optionSection === 2">
-    <app-votes></app-votes>
-  </div>
-  <div *ngIf="optionSection === 3">
-    <app-info-community [idCommunity]="community.id"></app-info-community>
+  <div class="m-5">
+    <div *ngIf="optionSection === 1">
+      <app-publications [idCommunity]="community.id"></app-publications>
+    </div>
+    <div *ngIf="optionSection === 2">
+      <app-votes></app-votes>
+    </div>
+    <div *ngIf="optionSection === 3">
+      <app-info-community [idCommunity]="community.id"></app-info-community>
+    </div>
   </div>
 </div>

@@ -1,0 +1,23 @@
+.button-card-prs {
+  background-color: transparent;
+  border: none;
+}
+
+.button-accept-prs{
+  margin-right: 10px;
+  em {
+    color: green;
+    font-size: 35px;
+  }
+}
+
+.button-remove-prs {
+  em {
+    color: red;
+    font-size: 35px;
+  }
+}
+
+.card-title {
+  margin: 0px;
+}

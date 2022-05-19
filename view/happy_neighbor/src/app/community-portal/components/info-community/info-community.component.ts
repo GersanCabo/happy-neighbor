@@ -100,9 +100,10 @@ export class InfoCommunityComponent implements OnInit {
     if (this.sessionToken != null && this.idCommunity > 0) {
       this.adminService.selectInvitations(this.sessionToken, this.idCommunity).subscribe({
         next: (responseSelectInvitations) => {
-          this.receivedRequests = [],
-          this.sendedInvitations = []
+          this.receivedRequests = [];
+          this.sendedInvitations = [];
           let arrayResponse = Object.values(responseSelectInvitations);
+          console.log(arrayResponse);
           arrayResponse[0].forEach( (receivedRequest:any) => {
             let userCommunity: UserCommunity = {
               id: receivedRequest['id'],
@@ -128,6 +129,18 @@ export class InfoCommunityComponent implements OnInit {
         },
         error: (errorSelectInvitations) => console.log(errorSelectInvitations)
       })
+    }
+  }
+
+  removeInvitation(idUser: number) {
+    if (idUser > 0 && this.idCommunity > 0) {
+
+    }
+  }
+
+  processRequest(idUser: number, isAccept: boolean = false) {
+    if (idUser > 0 && this.idCommunity > 0) {
+
     }
   }
 }

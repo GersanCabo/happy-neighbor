@@ -2,9 +2,7 @@
 
 .div-info {
   width: 100%;
-  .card-admin-prs {
-    width: 100%;
-  }
+  margin: auto;
 }
 
 .btn-float-prs {
@@ -48,5 +46,55 @@
     &:hover {
       color: white;
     }
+  }
+}
+
+
+.button-card-prs {
+  background-color: transparent;
+  border: none;
+}
+
+.button-accept-prs{
+  margin-right: 10px;
+  em {
+    color: green;
+    font-size: 35px;
+  }
+}
+
+.button-remove-prs {
+  em {
+    color: red;
+    font-size: 35px;
+  }
+}
+
+.card-title {
+  margin: 0px;
+}
+
+// Small devices (landscape phones, 576px and up)
+//@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768px and up)
+//@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992px and up)
+//@media (min-width: 992px) { ... }
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .div-info {
+    width: 100%;
+    max-width: 1000px;
+  }
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {
+  .div-info {
+    width: 100%;
+    max-width: 1000px;
   }
 }

@@ -10,6 +10,7 @@ export class UserCommunitiesService {
 
   private urlUser:string = ADDRESS_SERVER + "UserController/selectUserCommunities.php";
   private urlCommunity:string = ADDRESS_SERVER + "UserCommunityController/selectNumberOfUsers.php";
+  private urlUserControllerInsertRequest:string = ADDRESS_SERVER + "UserController/insertRequest.php";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,7 +22,6 @@ export class UserCommunitiesService {
    */
   selectUserCommunities(sessionToken:string) {
     let formData: FormData = new FormData();
-    formData.append('action','selectUserCommunities');
     formData.append("session_token",sessionToken);
     return this.httpClient
     .post(this.urlUser, formData);
@@ -36,10 +36,16 @@ export class UserCommunitiesService {
    */
   selectNumberOfUsers(communityData: Array<any>, sessionToken: string) {
     let formData: FormData = new FormData();
-    formData.append('action','selectNumberOfUsers');
     formData.append("session_token",sessionToken);
     formData.append('id',communityData[0].toString());
     return this.httpClient
     .post(this.urlCommunity, formData);
+  }
+
+  insertRequest(sessionToken: string, idCommunity: number) {
+    let formData: FormData = new FormData();
+    formData.append("session_token",sessionToken);
+    formData.append('id_community',idCommunity.toString());
+    return this.httpClient.post(this.urlUserControllerInsertRequest, formData);
   }
 }
