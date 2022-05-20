@@ -2,12 +2,22 @@
   <div class="div-info">
     <div class="div-admin" *ngIf="this.isAdmin">
       <h3>Received requests</h3>
-      <div *ngIf="receivedRequests.length > 0; else emptySection">
-        <app-received-request *ngFor="let receivedRequest of receivedRequests" [receivedRequest]="receivedRequest" [idCommunity]="idCommunity"></app-received-request>
+      <div class="row m-0" *ngIf="receivedRequests.length > 0; else emptySection">
+        <div class="col-12 col-md-6 col-lg- m-0 mb-3" *ngFor="let receivedRequest of receivedRequests">
+          <app-received-request [receivedRequest]="receivedRequest" [idCommunity]="idCommunity"></app-received-request>
+        </div>
       </div>
-      <h3>Sended invitations</h3>
-      <div *ngIf="sendedInvitations.length > 0; else emptySection">
-        <app-sended-invitation *ngFor="let sendedInvitation of sendedInvitations" [sendedInvitation]="sendedInvitation" [idCommunity]="idCommunity"></app-sended-invitation>
+      <h3 mt-2>Sended invitations</h3>
+      <div class="row m-0" *ngIf="sendedInvitations.length > 0; else emptySection">
+        <div class="col-12 col-md-6 col-lg- m-0 mb-3" *ngFor="let sendedInvitation of sendedInvitations">
+          <app-sended-invitation [sendedInvitation]="sendedInvitation" [idCommunity]="idCommunity"></app-sended-invitation>
+        </div>
+      </div>
+    </div>
+    <div class="div-user mt-3">
+      <h3>Community users:</h3>
+      <div *ngIf="users.length > 0">
+        <app-user-list-card *ngFor="let user of users" [user]="user"></app-user-list-card>
       </div>
     </div>
   </div>

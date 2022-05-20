@@ -10,6 +10,10 @@ export class PublicationService {
   private urlPublicationControllerSelectCommunityPublications = ADDRESS_SERVER + "PublicationController/selectCommunityPublications.php";
   private urlPublicationControllerSelect = ADDRESS_SERVER + "PublicationController/select.php";
   private urlPublicationControllerInsert = ADDRESS_SERVER + "PublicationController/insert.php";
+  private urlPublicationControllerCheckLike = ADDRESS_SERVER + "PublicationController/checkLike.php";
+  private urlPublicationControllerAddLike = ADDRESS_SERVER + "PublicationController/addLike.php";
+  private urlPublicationControllerRemoveLike = ADDRESS_SERVER + "PublicationController/removeLike.php";
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -29,12 +33,33 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerSelect, formData);
   }
 
-  insertPublication(session_token: string, idCommunity: number, textPublication: string, commentTo: number = 0) {
+  insertPublication(sessionToken: string, idCommunity: number, textPublication: string, commentTo: number = 0) {
     let formData: FormData = new FormData();
-    formData.append("session_token",session_token);
+    formData.append("session_token",sessionToken);
     formData.append("id_community",idCommunity.toString());
     formData.append("text_publication",textPublication);
     formData.append("comment_to",commentTo.toString());
     return this.httpClient.post(this.urlPublicationControllerInsert, formData);
+  }
+
+  checkLike(sessionToken: string, idPublication: number) {
+    let formData: FormData = new FormData();
+    formData.append("session_token",sessionToken);
+    formData.append("id",idPublication.toString());
+    return this.httpClient.post(this.urlPublicationControllerCheckLike, formData);
+  }
+
+  addLike(sessionToken: string, idPublication: number) {
+    let formData: FormData = new FormData();
+    formData.append("session_token",sessionToken);
+    formData.append("id",idPublication.toString());
+    return this.httpClient.post(this.urlPublicationControllerAddLike, formData);
+  }
+
+  removeLike(sessionToken: string, idPublication: number) {
+    let formData: FormData = new FormData();
+    formData.append("session_token",sessionToken);
+    formData.append("id",idPublication.toString());
+    return this.httpClient.post(this.urlPublicationControllerRemoveLike, formData);
   }
 }

@@ -9,6 +9,7 @@ import { PublicationCardComponent } from './components/publication-card/publicat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReceivedRequestComponent } from './components/received-request/received-request.component';
 import { SendedInvitationComponent } from './components/sended-invitation/sended-invitation.component';
+import { UserListCardComponent } from './components/user-list-card/user-list-card.component';
 
 
 
@@ -20,7 +21,8 @@ import { SendedInvitationComponent } from './components/sended-invitation/sended
     InfoCommunityComponent,
     PublicationCardComponent,
     ReceivedRequestComponent,
-    SendedInvitationComponent
+    SendedInvitationComponent,
+    UserListCardComponent
   ],
   imports: [
     CommonModule,

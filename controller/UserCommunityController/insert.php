@@ -9,14 +9,14 @@
      * Insert a community in the table
      */
     function insert() {
-        if (isset($_POST['session_token']) && isset($_POST['user_creator_id'])) {
+        if (isset($_POST['session_token']) && isset($_POST['name_community'])) {
             $idUser = processToken($_POST['session_token']);
-            if ($idUser == $_POST['user_creator_id']) {
+            if ($idUser) {
                 $community = new Community(
                     1,
                     $_POST['name_community'],
                     $_POST['description_community'],
-                    $_POST['user_creator_id']
+                    $idUser
                 );
                 sendJsonSucess(CommunityCRUD::insert($community));
             }

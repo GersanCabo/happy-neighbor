@@ -8,6 +8,11 @@ $bs-body-color: #212529;
   color: $bs-body-color;
 }
 
+.width-card-prs {
+  width: 18rem;
+  min-height: 180px;
+}
+
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
   .width-card-prs {

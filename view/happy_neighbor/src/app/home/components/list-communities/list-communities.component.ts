@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserCommunitiesService } from '../../services/user-communities.service';
 import { CommunityList } from '../../class/CommunityList';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class ListCommunitiesComponent implements OnInit {
 
   sessionToken:string|null = null;
   arrayCommunities:Array<CommunityList>= [];
+  requestCommunity:boolean = true;
 
   formSendRequest = new FormGroup({
     communityId: new FormControl('', [
@@ -22,7 +24,20 @@ export class ListCommunitiesComponent implements OnInit {
     ])
   });
 
-  constructor(private userCommunitiesService: UserCommunitiesService) {
+  formCreateNewCommunity = new FormGroup({
+    communityName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(50),
+      Validators.pattern(/^[\w]+( [\w]+)*$/)
+    ]),
+    communityDescription: new FormControl('', [
+      Validators.maxLength(300),
+      Validators.pattern(/.+/im)
+    ])
+  });
+
+  constructor(private userCommunitiesService: UserCommunitiesService, private router: Router) {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
@@ -34,6 +49,10 @@ export class ListCommunitiesComponent implements OnInit {
 
   get formControlsInsertRequest() {
     return this.formSendRequest.controls;
+  }
+
+  get formControlsCreateNewCommunity() {
+    return this.formCreateNewCommunity.controls;
   }
 
   /**
@@ -73,5 +92,24 @@ export class ListCommunitiesComponent implements OnInit {
       },
       error: (errorInsertRequest) => console.log(errorInsertRequest)
     });
+  }
+
+  createNewCommunity() {
+    if (this.formCreateNewCommunity.status == "VALID" && this.sessionToken != null) {
+      this.userCommunitiesService.createNewCommunity(
+        this.sessionToken,
+        this.formCreateNewCommunity.value.communityName,
+        this.formCreateNewCommunity.value.communityDescription
+      ).subscribe({
+        next: (responseCreateNewCommunity) => {
+          console.log(responseCreateNewCommunity);
+          if (responseCreateNewCommunity.toString() == '1') {
+            this.arrayCommunities = [];
+            this.ngOnInit();
+          }
+        },
+        error: (errorCreateNewCommunity) => console.log(errorCreateNewCommunity)
+      });
+    }
   }
 }

@@ -57,9 +57,11 @@ export class InfoCommunityComponent implements OnInit {
               biography: dataArray[0]['biography'],
               isAdmin: dataArray[1]['is_admin'],
             }
-            users[dataArray[1]['id_user']] = userCommunity;
+            //users[dataArray[1]['id_user']] = userCommunity;
+            users.push(userCommunity);
           });
           this.users = users;
+          console.log(this.users);
           this.checkIfAdmin();
         },
         error: (errorSelectCommunityUsers) => console.log(errorSelectCommunityUsers)
@@ -75,7 +77,12 @@ export class InfoCommunityComponent implements OnInit {
         this.formInviteUser.value.userId
       ).subscribe({
         next: (responseInsertInvitation) => {
-          console.log(responseInsertInvitation);
+          if (responseInsertInvitation.toString() == '1') {
+            this.users = [];
+            this.sendedInvitations = [];
+            this.receivedRequests = [];
+            this.ngOnInit();
+          }
         },
         error: (errorInsertInvitation) => console.log(errorInsertInvitation)
       })

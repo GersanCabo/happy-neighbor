@@ -44,9 +44,9 @@
             <em class="bi bi-chat-left"></em>
           </button>
           <span class="like">
-            <span class="icon">
-              <em class="bi bi-heart"></em>
-            </span>
+            <button class="btn-comment-prs icon" *ngIf="liked; else unliked" (click)="removeLike()">
+              <em class="bi bi-heart-fill"></em>
+            </button>
             <span>{{publication.likes}}</span>
           </span>
         </div>
@@ -54,6 +54,12 @@
     </div>
   </div>
 </div>
+
+  <ng-template #unliked>
+    <button class="btn-comment-prs icon" (click)="addLike()">
+      <em class="bi bi-heart"></em>
+    </button>
+  </ng-template>
 
   <!-- Modal -->
   <div class="modal fade" id="insertPublicationModal" tabindex="-1" aria-labelledby="insertPublicationModalLabel" aria-hidden="true">

@@ -16,11 +16,15 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addCommunityModalLabel">Post it!</h5>
+          <h5 class="modal-title" id="addCommunityModalLabel">Request or create</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form-prs" [formGroup]="formSendRequest" (ngSubmit)="insertRequest()">
+          <div class="buttons-glued buttons-request">
+            <button (click)="requestCommunity = true" [ngClass]="{'active' : requestCommunity}">Request</button>
+            <button (click)="requestCommunity = false" [ngClass]="{'active' : !requestCommunity}">Create</button>
+          </div>
+          <form class="form-prs" *ngIf="requestCommunity; else newCommunity" [formGroup]="formSendRequest" (ngSubmit)="insertRequest()">
             <input type="number" class="form-control" formControlName="communityId" placeholder="ID User"/>
             <div *ngIf="formControlsInsertRequest['communityId'].touched && formControlsInsertRequest['communityId'].invalid" class="alert-form">
               <div *ngIf="formControlsInsertRequest['communityId'].errors && formControlsInsertRequest['communityId'].errors['required']">Empty</div>
@@ -32,6 +36,24 @@
       </div>
     </div>
   </div>
+
+  <ng-template #newCommunity>
+    <form class="form-prs" [formGroup]="formCreateNewCommunity" (ngSubmit)="createNewCommunity()">
+      <input type="text" class="form-control" formControlName="communityName" placeholder="Community name*"/>
+      <div *ngIf="formControlsCreateNewCommunity['communityName'].touched && formControlsCreateNewCommunity['communityName'].invalid" class="alert-form">
+        <div *ngIf="formControlsCreateNewCommunity['communityName'].errors && formControlsCreateNewCommunity['communityName'].errors['required']">Empty</div>
+        <div *ngIf="formControlsCreateNewCommunity['communityName'].errors && formControlsCreateNewCommunity['communityName'].errors['minLength']">Minimum one character</div>
+        <div *ngIf="formControlsCreateNewCommunity['communityName'].errors && formControlsCreateNewCommunity['communityName'].errors['maxLength']">Maximum 50 characters</div>
+        <div *ngIf="formControlsCreateNewCommunity['communityName'].errors && formControlsCreateNewCommunity['communityName'].errors['pattern']">Invalid name</div>
+      </div>
+      <textarea formControlName="communityDescription" rows="8" placeholder="Community description"></textarea>
+      <div *ngIf="formControlsCreateNewCommunity['communityDescription'].touched && formControlsCreateNewCommunity['communityDescription'].invalid" class="alert-form">
+        <div *ngIf="formControlsCreateNewCommunity['communityDescription'].errors && formControlsCreateNewCommunity['communityDescription'].errors['maxLength']">Maximum 300 characters</div>
+        <div *ngIf="formControlsCreateNewCommunity['communityDescription'].errors && formControlsCreateNewCommunity['communityDescription'].errors['pattern']">Invalid description</div>
+      </div>
+      <button type="submit" data-bs-dismiss="modal">Create</button>
+    </form>
+  </ng-template>
 
 </div>
 

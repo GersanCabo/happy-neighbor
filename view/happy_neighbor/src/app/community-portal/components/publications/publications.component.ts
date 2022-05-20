@@ -123,7 +123,10 @@ export class PublicationsComponent implements OnInit {
         this.formInsertPublication.value.textPublication
       ).subscribe({
         next: (responseInsertPublication) => {
-          console.log(responseInsertPublication);
+          if (responseInsertPublication.toString() == '1') {
+            this.arrayPublications = [];
+            this.ngOnInit();
+          }
         },
         error: (errorInsertPublication) => console.log(errorInsertPublication)
       })

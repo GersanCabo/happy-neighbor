@@ -19,6 +19,7 @@ export class PublicationCardComponent implements OnInit {
   userPublication: UserCommunity|null = null;
   userPublicationCommented: UserCommunity|null = null;
   idCommunity: number = 0;
+  liked: boolean = false;
 
   formInsertPublication = new FormGroup({
     textPublication: new FormControl('',[
@@ -37,6 +38,7 @@ export class PublicationCardComponent implements OnInit {
       const { params } = paramMap;
       this.idCommunity = params.id;
       this.selectCommunityUser(this.idCommunity);
+      this.checkLike();
       if (this.publication?.commentTo != null) {
         this.selectCommunityUser(this.idCommunity,true);
       }
@@ -89,8 +91,64 @@ export class PublicationCardComponent implements OnInit {
           console.log(responseInsertPublication);
         },
         error: (errorInsertPublication) => console.log(errorInsertPublication)
-      })
+      });
     }
   }
 
+  checkLike() {
+    if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
+      this.publicationService.checkLike(
+        this.sessionToken,
+        this.publication?.id
+      ).subscribe({
+        next: (responseCheckLike) => {
+          console.log(responseCheckLike);
+          if (responseCheckLike.toString() == '1') {
+            this.liked = true;
+          }
+        },
+        error: (errorCheckLike) => console.log(errorCheckLike)
+      });
+    }
+  }
+
+  addLike() {
+    if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
+      this.publicationService.addLike(
+        this.sessionToken,
+        this.publication?.id
+      ).subscribe({
+        next: (responseCheckLike) => {
+          console.log(responseCheckLike);
+          if (responseCheckLike.toString() == "1") {
+            this.liked = true;
+            if (this.publication?.likes != undefined) {
+              this.publication.likes++;
+            }
+          }
+        },
+        error: (errorCheckLike) => console.log(errorCheckLike)
+      });
+    }
+  }
+
+  removeLike() {
+    if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
+      this.publicationService.removeLike(
+        this.sessionToken,
+        this.publication?.id
+      ).subscribe({
+        next: (responseCheckLike) => {
+          console.log(responseCheckLike);
+          if (responseCheckLike.toString() == "1") {
+            this.liked = false;
+            if (this.publication?.likes != undefined) {
+              this.publication.likes--;
+            }
+          }
+        },
+        error: (errorCheckLike) => console.log(errorCheckLike)
+      });
+    }
+  }
 }
