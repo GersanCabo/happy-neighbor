@@ -14,7 +14,9 @@
             $id = processToken($_POST['session_token']);
             if ($id) {
                 $user = UserCRUD::select($id);
-                echo json_encode($user -> getAttributes());
+                $userArray = $user -> getAttributes();
+                unset($userArray['pass_user']);
+                echo json_encode($userArray);
             }
         }
     }

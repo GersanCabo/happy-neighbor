@@ -221,5 +221,27 @@
             $result = $insertRequestSentence -> execute();
             return $result;
         }
+
+        public static function acceptInvitation(int $idUser, int $idCommunity) {
+            $result = false;
+            $db = Db::connect();
+            $acceptInvitationSentence = $db -> prepare("UPDATE user_community SET user_accepted=true WHERE id_user=$idUser AND id_community=$idCommunity AND user_accepted=false;");
+            $result = $acceptInvitationSentence -> execute();
+            return $result;
+        }
+
+        public static function removeInvitation(int $idUser, int $idCommunity, bool $isRequest = false) {
+            $result = false;
+            $db = Db::connect();
+            $communityAcceptedString = "true";
+            $userAcceptedString = "false";
+            if ($isRequest) {
+                $communityAcceptedString = "false";
+                $userAcceptedString = "true";
+            }
+            $removeInvitationSentence = $db -> prepare("DELETE FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity AND community_accepted=$communityAcceptedString AND user_accepted=$userAcceptedString;");
+            $result = $removeInvitationSentence -> execute();
+            return $result;
+        }
     }
 ?>

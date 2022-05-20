@@ -8,6 +8,7 @@ import { InfoCommunityComponent } from './components/info-community/info-communi
 import { PublicationCardComponent } from './components/publication-card/publication-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReceivedRequestComponent } from './components/received-request/received-request.component';
+import { SendedInvitationComponent } from './components/sended-invitation/sended-invitation.component';
 
 
 
@@ -18,7 +19,8 @@ import { ReceivedRequestComponent } from './components/received-request/received
     VotesComponent,
     InfoCommunityComponent,
     PublicationCardComponent,
-    ReceivedRequestComponent
+    ReceivedRequestComponent,
+    SendedInvitationComponent
   ],
   imports: [
     CommonModule,

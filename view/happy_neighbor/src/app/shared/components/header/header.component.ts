@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Community } from 'src/app/global/class/Community';
+import { User } from 'src/app/global/class/User';
 import { UserService } from 'src/app/global/services/user.service';
 import { ValidateTokenService } from 'src/app/global/services/validate-token.service';
 
@@ -14,6 +15,13 @@ export class HeaderComponent implements OnInit {
   sessionToken:string|null = null;
   receivedInvitations:any[] = [];
   sendedRequests:any[] = [];
+  user: User = {
+    id: 0,
+    nameUser: "",
+    lastName: null,
+    profilePicture: null,
+    biography: null
+  }
 
   constructor(private userService: UserService, private validateTokenService: ValidateTokenService, private router: Router) {
     this.sessionToken = sessionStorage.getItem('session_token');
@@ -22,6 +30,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     if (this.sessionToken != null) {
       this.validateToken(this.sessionToken);
+      this.selectUser(this.sessionToken);
       this.selectRequests(this.sessionToken);
     } else {
       this.router.navigate(['/login']);
@@ -35,6 +44,22 @@ export class HeaderComponent implements OnInit {
   */
   validateToken(sessionToken: string) {
     this.validateTokenService.validateToken(sessionToken);
+  }
+
+  selectUser(sessionToken: string) {
+    this.userService.select(sessionToken).subscribe({
+      next: (responseSelectUser) => {
+        let userArray = Object.assign(responseSelectUser);
+        let user: User = {
+          id: userArray['id'],
+          nameUser: userArray['name_user'],
+          lastName: userArray['last_name'],
+          profilePicture: userArray['profile_picture'],
+          biography: userArray['biography']
+        }
+        this.user = user;
+      }
+    })
   }
 
   selectRequests(sessionToken: string) {
@@ -63,6 +88,7 @@ export class HeaderComponent implements OnInit {
           }
           this.sendedRequests.push(community);
         });
+        console.log(this.receivedInvitations);
       },
       error: (errorSelectRequests) => console.log(errorSelectRequests)
     });

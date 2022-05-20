@@ -238,7 +238,7 @@
         /**
          * Select all sended invitations and pending requests
          * 
-         * @param int $idCommunity id community
+         * @param int $idCommunity community id
          * @return array with invitations and requests or empty
          */
         public static function selectInvitations(int $idCommunity):array {
@@ -254,6 +254,35 @@
                 $arrayReceived[] = $fetchReceivedRequestsSentence;
             }
             return [$arrayReceived,$arraySended];
+        }
+
+        public static function acceptRequest(int $idUser, int $idCommunity):bool {
+            $result = false;
+            $db = Db::connect();
+            $acceptRequestSentence = $db -> prepare("UPDATE user_community SET community_accepted=true WHERE id_user=$idUser AND id_community=$idCommunity AND community_accepted=false;");
+            $result = $acceptRequestSentence -> execute();
+            return $result;
+        }
+
+        /**
+         * Remove a user request
+         * 
+         * @param int $idUser user id
+         * @param int $idCommunity community id
+         * @return bool $result if request is removed or not
+         */
+        public static function removeRequest(int $idUser, int $idCommunity, bool $isInvitation = false):bool {
+            $result = false;
+            $db = Db::connect();
+            $communityAcceptedString = "false";
+            $userAcceptedString = "true";
+            if ($isInvitation) {
+                $communityAcceptedString = "true";
+                $userAcceptedString = "false";
+            }
+            $removeRequestSentence = $db -> prepare("DELETE FROM user_community WHERE id_user=$idUser AND id_community=$idCommunity AND community_accepted=$communityAcceptedString AND user_accepted=$userAcceptedString;");
+            $result = $removeRequestSentence -> execute();
+            return $result;
         }
     }
 ?>

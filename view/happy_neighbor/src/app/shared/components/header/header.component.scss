@@ -12,6 +12,10 @@
 .button-img-user-prs {
   background: none;
   border: none;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  color: $color-secundary;
   em {
     font-size: 30px;
     color: $color-secundary;
@@ -40,4 +44,8 @@
 
 .card-title {
   margin: 0px;
+}
+
+.id-user-prs {
+  font-size: medium;
 }

@@ -131,16 +131,4 @@ export class InfoCommunityComponent implements OnInit {
       })
     }
   }
-
-  removeInvitation(idUser: number) {
-    if (idUser > 0 && this.idCommunity > 0) {
-
-    }
-  }
-
-  processRequest(idUser: number, isAccept: boolean = false) {
-    if (idUser > 0 && this.idCommunity > 0) {
-
-    }
-  }
 }
