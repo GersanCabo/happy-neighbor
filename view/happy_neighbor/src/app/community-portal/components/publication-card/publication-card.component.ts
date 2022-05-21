@@ -49,6 +49,12 @@ export class PublicationCardComponent implements OnInit {
     return this.formInsertPublication.controls;
   }
 
+  /**
+   * Select community users
+   *
+   * @param idCommunity community id
+   * @param commented if the publication comments on another publication or not
+   */
   selectCommunityUser(idCommunity: number, commented: boolean = false) {
     let idUser = this.publication?.idUser
     if (commented) {
@@ -79,6 +85,10 @@ export class PublicationCardComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Insert a new publication commented a other post
+   */
   insertPublication() {
     if (this.formInsertPublication.status == "VALID" && this.sessionToken != null && this.idCommunity > 0) {
       this.publicationService.insertPublication(
@@ -95,6 +105,9 @@ export class PublicationCardComponent implements OnInit {
     }
   }
 
+  /**
+   * Check if the user has already liked the post
+   */
   checkLike() {
     if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
       this.publicationService.checkLike(
@@ -112,6 +125,9 @@ export class PublicationCardComponent implements OnInit {
     }
   }
 
+  /**
+   * Add a like to the post
+   */
   addLike() {
     if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
       this.publicationService.addLike(
@@ -132,6 +148,9 @@ export class PublicationCardComponent implements OnInit {
     }
   }
 
+  /**
+   * Remove a like to the post
+   */
   removeLike() {
     if (this.sessionToken != null && this.publication?.id != undefined && this.publication.id > 0) {
       this.publicationService.removeLike(

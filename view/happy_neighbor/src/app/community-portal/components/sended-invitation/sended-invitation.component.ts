@@ -28,6 +28,11 @@ export class SendedInvitationComponent implements OnInit {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
+  /**
+   * Remove a sent invitation
+   *
+   * @param idUser id of the user to the invitation was sent
+   */
   removeInvitation(idUser: number) {
     if (this.sessionToken != null && idUser > 0 && this.idCommunity > 0) {
       this.adminService.removeInvitation(

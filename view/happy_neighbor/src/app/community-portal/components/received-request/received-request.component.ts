@@ -29,6 +29,11 @@ export class ReceivedRequestComponent implements OnInit {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
+  /**
+   * Remove a incoming request
+   *
+   * @param idUser id of the user who submitted the request
+   */
   removeRequest(idUser: number) {
     if (this.sessionToken != null && idUser > 0 && this.idCommunity > 0) {
       this.adminService.removeRequest(
@@ -46,6 +51,11 @@ export class ReceivedRequestComponent implements OnInit {
     }
   }
 
+  /**
+   * Accept a incoming request
+   *
+   * @param idUser id of the user who submitted the request
+   */
   acceptRequest(idUser: number) {
     if (this.sessionToken != null && idUser > 0 && this.idCommunity > 0) {
       this.adminService.acceptRequest(

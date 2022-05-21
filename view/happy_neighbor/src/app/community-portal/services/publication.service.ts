@@ -17,6 +17,14 @@ export class PublicationService {
 
   constructor(private httpClient: HttpClient) { }
 
+  /**
+   * Select a range of community publications
+   *
+   * @param sessionToken user session token
+   * @param idCommunity community id
+   * @param numPage page to select (range of publications)
+   * @returns Observable with data
+   */
   selectPublications(sessionToken: string, idCommunity: number, numPage: number = 0) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -25,6 +33,14 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerSelectCommunityPublications, formData);
   }
 
+  /**
+   * Select a specific publication
+   *
+   * @param sessionToken user session token
+   * @param idCommunity community id
+   * @param idPublication publication id
+   * @returns Observable with data
+   */
   selectPublication(sessionToken: string, idCommunity: number, idPublication: number) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -33,6 +49,15 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerSelect, formData);
   }
 
+  /**
+   * Insert a new publication
+   *
+   * @param sessionToken user session token
+   * @param idCommunity community id
+   * @param textPublication text of the publication
+   * @param commentTo id of the commented publication (if comment)
+   * @returns Observable with data
+   */
   insertPublication(sessionToken: string, idCommunity: number, textPublication: string, commentTo: number = 0) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -42,6 +67,13 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerInsert, formData);
   }
 
+  /**
+   * Check if the user has already liked the publication
+   *
+   * @param sessionToken user session token
+   * @param idPublication publication id
+   * @returns Observable with data
+   */
   checkLike(sessionToken: string, idPublication: number) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -49,6 +81,13 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerCheckLike, formData);
   }
 
+  /**
+   * Add a like to the publication
+   *
+   * @param sessionToken user session token
+   * @param idPublication publication id
+   * @returns Observable with data
+   */
   addLike(sessionToken: string, idPublication: number) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -56,6 +95,13 @@ export class PublicationService {
     return this.httpClient.post(this.urlPublicationControllerAddLike, formData);
   }
 
+  /**
+   * Remove a like to the publication
+   *
+   * @param sessionToken user session token
+   * @param idPublication publication id
+   * @returns Observable with data
+   */
   removeLike(sessionToken: string, idPublication: number) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);

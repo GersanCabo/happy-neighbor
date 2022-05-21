@@ -5,6 +5,9 @@
     require_once("../../model/crud/CommunityCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Remove a incoming request sended by a user
+     */
     function removeRequest() {
         if (isset($_POST['session_token']) && isset($_POST['id_community']) && isset($_POST['id_user']) ) {
             $idUser = processToken($_POST['session_token']);

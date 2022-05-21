@@ -7,8 +7,6 @@
 
     /**
      * Check if a user is a admin
-     * 
-     * @return bool $result is a user is a admin or not
      */
     function checkIfAdmin() {
         $result = false;

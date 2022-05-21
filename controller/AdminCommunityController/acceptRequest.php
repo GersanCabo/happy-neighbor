@@ -5,6 +5,9 @@
     require_once("../../model/crud/CommunityCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Accept a request sended by a user to the community
+     */
     function acceptRequest() {
         if (isset($_POST['session_token']) && isset($_POST['id_community']) && isset($_POST['id_user']) ) {
             $idUser = processToken($_POST['session_token']);

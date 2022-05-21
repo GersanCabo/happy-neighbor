@@ -5,6 +5,9 @@
     require_once("../../model/crud/CommunityCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Send a new invitation to a user
+     */
     function insertInvitation() {
         if (isset($_POST['session_token']) && isset($_POST['id']) && isset($_POST['id_user'])) {
             $idUser = processToken($_POST['session_token']);

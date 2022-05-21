@@ -69,6 +69,9 @@ export class InfoCommunityComponent implements OnInit {
     }
   }
 
+  /**
+   * Send a new invitation to a user
+   */
   insertInvitation() {
     if (this.formInviteUser.status == "VALID" && this.sessionToken != null && this.idCommunity > 0) {
       this.adminService.insertInvitation(
@@ -89,6 +92,9 @@ export class InfoCommunityComponent implements OnInit {
     }
   }
 
+  /**
+   * Check if the user is a admin or not
+   */
   checkIfAdmin() {
     if (this.sessionToken != null && this.idCommunity > 0) {
       this.communityService.checkIfAdmin(this.sessionToken,this.idCommunity).subscribe({
@@ -103,6 +109,9 @@ export class InfoCommunityComponent implements OnInit {
     }
   }
 
+  /**
+   * Select all invitations and request from the community
+   */
   selectInvitations() {
     if (this.sessionToken != null && this.idCommunity > 0) {
       this.adminService.selectInvitations(this.sessionToken, this.idCommunity).subscribe({

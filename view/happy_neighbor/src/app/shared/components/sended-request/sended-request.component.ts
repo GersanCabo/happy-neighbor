@@ -26,6 +26,11 @@ export class SendedRequestComponent implements OnInit {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
+  /**
+   * Remove a request sended by the user to a community
+   *
+   * @param idCommunity community id
+   */
   removeRequest(idCommunity: number) {
     if (this.sessionToken != null && idCommunity > 0) {
       this.userService.removeRequest(

@@ -6,6 +6,9 @@
     require_once("../../model/crud/UserCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Sended a new request to a community
+     */
     function insertRequest() {
         if (isset($_POST['session_token']) && isset($_POST['id_community'])) {
             $idUser = processToken($_POST['session_token']);

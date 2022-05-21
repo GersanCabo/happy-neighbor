@@ -115,6 +115,9 @@ export class PublicationsComponent implements OnInit {
     }
   }
 
+  /**
+   * Insert a new post
+   */
   insertPublication() {
     if (this.formInsertPublication.status == "VALID" && this.sessionToken != null) {
       this.publicationService.insertPublication(

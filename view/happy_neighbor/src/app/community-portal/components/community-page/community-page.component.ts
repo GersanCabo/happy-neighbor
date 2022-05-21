@@ -26,6 +26,11 @@ export class CommunityPageComponent implements OnInit {
     })
   }
 
+  /**
+   * Select community data
+   *
+   * @param idCommunity community id
+   */
   selectCommunity(idCommunity:any) {
     if (this.sessionToken != null && parseInt(idCommunity) > 0) {
       this.communityService.selectCommunity(this.sessionToken, idCommunity).subscribe({

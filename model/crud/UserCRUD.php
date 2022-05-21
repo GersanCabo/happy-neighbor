@@ -210,8 +210,8 @@
         /**
          * Insert a new request
          * 
-         * @param int $idUser user id
-         * @param int $idCommunity community id
+         * @param int $idUser id of the user who sended the request
+         * @param int $idCommunity id of the community that will receive the request
          * @return bool $result if request inserted or not
          */
         public static function insertRequest(int $idUser, int $idCommunity): bool {
@@ -222,7 +222,15 @@
             return $result;
         }
 
-        public static function acceptInvitation(int $idUser, int $idCommunity) {
+
+        /**
+         * Accept the invitation received by the user
+         * 
+         * @param int $idUser id of the user who received the invitation
+         * @param int $idCommunity id of the community who send the invitation
+         * @return bool $result if invitation accepted or not
+         */
+        public static function acceptInvitation(int $idUser, int $idCommunity): bool {
             $result = false;
             $db = Db::connect();
             $acceptInvitationSentence = $db -> prepare("UPDATE user_community SET user_accepted=true WHERE id_user=$idUser AND id_community=$idCommunity AND user_accepted=false;");
@@ -230,7 +238,15 @@
             return $result;
         }
 
-        public static function removeInvitation(int $idUser, int $idCommunity, bool $isRequest = false) {
+        /**
+         * Remove the invitation received by the user or the request sended by a community
+         * 
+         * @param int $idUser id of the user who perfoming the deletion
+         * @param int $idCommunity id of the community
+         * @param bool $isRequest if the line to remove is a invitation(false) or a request(true)
+         * @return bool $result if the line is removed or not
+         */
+        public static function removeInvitation(int $idUser, int $idCommunity, bool $isRequest = false): bool {
             $result = false;
             $db = Db::connect();
             $communityAcceptedString = "true";

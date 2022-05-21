@@ -6,6 +6,9 @@
     require_once("../../model/crud/UserCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Select all sended request and invitations received by the user
+     */
     function selectRequests() {
         if (isset($_POST['session_token'])) {
             $idUser = processToken($_POST['session_token']);

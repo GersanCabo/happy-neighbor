@@ -5,6 +5,9 @@
     require_once("../../model/crud/CommunityCRUD.php");
     require_once("../Utilities.php");
 
+    /**
+     * Select all invitations and request to the community
+     */
     function selectInvitations() {
         if (isset($_POST['session_token']) && isset($_POST['id'])) {
             $idUser = processToken($_POST['session_token']);

@@ -46,6 +46,11 @@ export class HeaderComponent implements OnInit {
     this.validateTokenService.validateToken(sessionToken);
   }
 
+  /**
+   * Select info of the user and save it
+   *
+   * @param sessionToken user session token
+   */
   selectUser(sessionToken: string) {
     this.userService.select(sessionToken).subscribe({
       next: (responseSelectUser) => {
@@ -62,6 +67,11 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  /**
+   * Select all sended request and invitations received by the user
+   *
+   * @param sessionToken user session token
+   */
   selectRequests(sessionToken: string) {
     this.userService.selectRequests(sessionToken).subscribe({
       next: (responseSelectRequests) => {

@@ -44,6 +44,13 @@ export class UserCommunitiesService {
     .post(this.urlCommunity, formData);
   }
 
+  /**
+   * Send a new request to a community
+   *
+   * @param sessionToken user session token
+   * @param idCommunity community id
+   * @returns Observable with the petition
+   */
   insertRequest(sessionToken: string, idCommunity: number) {
     let formData: FormData = new FormData();
     formData.append("session_token",sessionToken);
@@ -51,6 +58,14 @@ export class UserCommunitiesService {
     return this.httpClient.post(this.urlUserControllerInsertRequest, formData);
   }
 
+  /**
+   * Create a new community
+   *
+   * @param sessionToken user session token
+   * @param nameCommunity community name
+   * @param descriptionCommunity community description (not required)
+   * @returns Observable with the petition
+   */
   createNewCommunity(sessionToken: string, nameCommunity: string, descriptionCommunity: string = "") {
     let formData: FormData = new FormData();
     formData.append("session_token", sessionToken);

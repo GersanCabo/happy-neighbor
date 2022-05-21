@@ -82,6 +82,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  /**
+   * Sign up the new user if the form is valid
+   */
   signUp() {
     if (this.formSignUp.status == "VALID") {
       this.loginService.signUp(

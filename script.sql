@@ -263,6 +263,7 @@ delimiter ;
 
 -- Inserciones de prueba
 
+/*
 INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (1,'user','last','user@gmail.com','$2y$10$4OCGTlFVlgB9SqYHFZfCL.yx5Zniq4aOgYUgzl9Icil2GTd5gNGw2');
 INSERT INTO user (id, name_user, last_name, mail, pass_user) VALUES (2,'admin','lasted','admin@gmail.com','$2y$10$4OCGTlFVlgB9SqYHFZfCL.yx5Zniq4aOgYUgzl9Icil2GTd5gNGw2');
 
@@ -277,3 +278,4 @@ INSERT INTO session_token VALUES ('7c1ef4a0256611-2',null,2);
 
 INSERT INTO publication VALUES (1,"primero", 2, null, null, 1,1);
 INSERT INTO publication VALUES (2,"segundo", 1, null, 1, 2, 1);
+*/

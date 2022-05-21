@@ -44,6 +44,15 @@ export class LoginService {
     this.router.navigate(['/']);
   }
 
+  /**
+   * Sign Up the new user
+   *
+   * @param nameUser user name
+   * @param lastName user last name
+   * @param mail user mail
+   * @param passUser user password
+   * @returns Observable with the petition
+   */
   signUp(nameUser:string, lastName:string, mail:string, passUser:string) {
     let formData: FormData = new FormData();
     formData.append("action","insert");

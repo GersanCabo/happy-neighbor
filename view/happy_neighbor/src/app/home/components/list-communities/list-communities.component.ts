@@ -17,6 +17,9 @@ export class ListCommunitiesComponent implements OnInit {
   arrayCommunities:Array<CommunityList>= [];
   requestCommunity:boolean = true;
 
+  /**
+   * Form to send a request to a community
+   */
   formSendRequest = new FormGroup({
     communityId: new FormControl('', [
       Validators.required,
@@ -24,6 +27,9 @@ export class ListCommunitiesComponent implements OnInit {
     ])
   });
 
+  /**
+   * Form to create a new community
+   */
   formCreateNewCommunity = new FormGroup({
     communityName: new FormControl('', [
       Validators.required,
@@ -81,6 +87,9 @@ export class ListCommunitiesComponent implements OnInit {
     });
   }
 
+  /**
+   * Send a request to a community
+   */
   insertRequest() {
     if (this.formSendRequest.status == "VALID" && this.sessionToken != null)
     this.userCommunitiesService.insertRequest(
@@ -94,6 +103,9 @@ export class ListCommunitiesComponent implements OnInit {
     });
   }
 
+  /**
+   * Create a new community and assigns the creator user the role of administrator
+   */
   createNewCommunity() {
     if (this.formCreateNewCommunity.status == "VALID" && this.sessionToken != null) {
       this.userCommunitiesService.createNewCommunity(

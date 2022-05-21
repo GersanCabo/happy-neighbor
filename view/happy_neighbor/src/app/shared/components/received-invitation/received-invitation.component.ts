@@ -28,6 +28,11 @@ export class ReceivedInvitationComponent implements OnInit {
     this.sessionToken = sessionStorage.getItem('session_token');
   }
 
+  /**
+   * Accept invitation sended by a community
+   *
+   * @param idCommunity community id
+   */
   acceptInvitation(idCommunity: number) {
     if (this.sessionToken != null && idCommunity > 0) {
       this.userService.acceptInvitation(
@@ -44,6 +49,11 @@ export class ReceivedInvitationComponent implements OnInit {
     }
   }
 
+  /**
+   * Remove a invitation sended by a community
+   *
+   * @param idCommunity community id
+   */
   removeInvitation(idCommunity: number) {
     if (this.sessionToken != null && idCommunity > 0) {
       this.userService.removeInvitation(

@@ -256,6 +256,12 @@
             return [$arrayReceived,$arraySended];
         }
 
+        /**
+         * Accept a request sended by a user to the community
+         * 
+         * @param int $idUser id of the user who sended the request
+         * @return bool if the request is accepted or not
+         */
         public static function acceptRequest(int $idUser, int $idCommunity):bool {
             $result = false;
             $db = Db::connect();
