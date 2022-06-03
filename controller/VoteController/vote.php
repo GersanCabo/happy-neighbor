@@ -23,8 +23,10 @@
                         3. If the vote has not expired
                         4. If the user has not voted before
                 */
-                if ( gettype(CommunityCRUD::isAdmin($idUser,$arrayVote['id_community'])) == "integer" && CommunityCRUD::selectPermissionUser($idUser,$arrayVote['id_community']) 
-                        && ($arrayVote['date_end'] == null || ( strtotime($arrayVote['date_end']) - time() ) > 0 ) && !(VoteCRUD::checkVoteUser($idUser,$arrayVote['id'])) ) {
+                if ( gettype(CommunityCRUD::isAdmin($idUser,$arrayVote['id_community'])) == "integer" 
+                        && CommunityCRUD::selectPermissionUser($idUser,$arrayVote['id_community']) 
+                        && ($arrayVote['date_end'] == null || ( strtotime($arrayVote['date_end']) - time() ) > 0 ) 
+                        && !(VoteCRUD::checkVoteUser($idUser,$arrayVote['id'])) ) {
                     sendJsonSucess(VoteCRUD::vote( $_POST['id'],$idUser,boolval($_POST['vote_value']) ));
                 }
             }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -35,12 +36,12 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(50),
-      Validators.pattern(/^[\w]+( [\w]+)*$/)
+      Validators.pattern(/^[a-zA-ZÀ-ÿ]+(\s*[a-zA-ZÀ-ÿ]*)*[a-zA-ZÀ-ÿ ]+$/)
     ]),
     lastName: new FormControl('',[
       Validators.minLength(2),
       Validators.maxLength(80),
-      Validators.pattern(/^[\w]+( [\w]+)*$/)
+      Validators.pattern(/^[a-zA-ZÀ-ÿ]+(\s*[a-zA-ZÀ-ÿ]*)*[a-zA-ZÀ-ÿ ]+$/)
     ]),
     mailSignUp: new FormControl('', [
       Validators.required,
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
 
   });
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -73,13 +74,34 @@ export class LoginComponent implements OnInit {
   /**
    * Log in the user if the log in form is valid
    */
-  login() {
-    if (this.formLogin.status == "VALID") {
+  login(mail: string = this.formLogin.value.mail, password: string = this.formLogin.value.passUser, signUp: boolean = false) {
+    if (this.formLogin.status == "VALID" || signUp) {
       this.loginService.login(
-        this.formLogin.value.mail,
-        this.formLogin.value.passUser
-      );
+        mail,
+        password
+      ).subscribe({
+        next: (response) => {
+          if (response) {
+            this.loggedIn(response);
+          } else {
+            alert("Correo o contraseña incorrectos");
+          }
+          //this.loggedIn(response);
+        },
+        error: (error) => console.log(error)
+      });
     }
+  }
+
+  /**
+   * Process the log in response, save the session token
+   * and redirect to the main page
+   *
+   * @param response JSON Object with the user session token
+   */
+  private loggedIn(response: object) {
+    sessionStorage.setItem('session_token',response.toString());
+    this.router.navigate(['/']);
   }
 
   /**
@@ -95,13 +117,15 @@ export class LoginComponent implements OnInit {
       ).subscribe({
         next: (responseSignUp) => {
           let resultSignUp = 0;
+          console.log(responseSignUp);
           if (responseSignUp == 0 || responseSignUp == 1) {
             resultSignUp = parseInt(responseSignUp.toString())
           }
           if (resultSignUp) {
-            this.loginService.login(
+            this.login(
               this.formSignUp.value.mailSignUp,
-              this.formSignUp.value.passUserSignUp
+              this.formSignUp.value.passUserSignUp,
+              true
             );
           } else {
             alert("Email already in use")

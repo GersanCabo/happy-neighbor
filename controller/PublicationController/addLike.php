@@ -15,7 +15,9 @@
             $idUser = processToken($_POST['session_token']);
             $publication = PublicationCRUD::select($_POST['id']);
             $publicationArray = $publication -> getAttributes();
-            if (gettype(CommunityCRUD::isAdmin($idUser,$publicationArray['id_community'])) == "integer"  && CommunityCRUD::selectPermissionUser($idUser,$publicationArray['id_community']) && !(PublicationCRUD::checkLikeUser($idUser,$publicationArray['id']))) {
+            if (gettype(CommunityCRUD::isAdmin($idUser,$publicationArray['id_community'])) == "integer"  
+                    && CommunityCRUD::selectPermissionUser($idUser,$publicationArray['id_community']) 
+                    && !(PublicationCRUD::checkLikeUser($idUser,$publicationArray['id']))) {
                 sendJsonSucess(PublicationCRUD::addLike($publicationArray['id'], $idUser));
             }
         }

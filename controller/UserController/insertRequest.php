@@ -17,7 +17,7 @@
                 if ($existRequest) {
                     echo json_encode([false,$existRequest]);
                 } else {
-                    sendJsonSucess(UserCRUD::insertRequest($idUser,$_POST['id_community'])); //Change this
+                    sendJsonSucess(UserCRUD::insertRequest($idUser,$_POST['id_community']));
                 }
             }
         }

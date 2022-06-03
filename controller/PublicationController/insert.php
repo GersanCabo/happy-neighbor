@@ -13,7 +13,8 @@
     function insert() {
         if (isset($_POST['session_token']) && isset($_POST['id_community'])) {
             $idUser = processToken($_POST['session_token']);
-            if (gettype(CommunityCRUD::isAdmin($idUser,$_POST['id_community'])) == "integer"  && CommunityCRUD::selectPermissionUser($idUser,$_POST['id_community'])) {
+            if (gettype(CommunityCRUD::isAdmin($idUser,$_POST['id_community'])) == "integer"  
+                && CommunityCRUD::selectPermissionUser($idUser,$_POST['id_community'])) {
                 $publication = new Publication(
                     1,
                     $_POST['text_publication'],

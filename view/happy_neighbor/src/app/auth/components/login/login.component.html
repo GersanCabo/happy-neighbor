@@ -17,9 +17,9 @@
           </div>
           <input formControlName="passUser" type="password" placeholder="Password*">
           <div *ngIf="formControls['passUser'].touched && formControls['passUser'].invalid" class="alert-form">
-            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['required']">Email is required.</div>
-            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['minlength']">The email must have a minimum of 5 characters.</div>
-            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['required']">Password is required.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['minlength']">The password must have a minimum of 6 characters.</div>
+            <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['maxlength']">The password must have a maximum of 20 characters.</div>
             <div *ngIf="formControls['passUser'].errors && formControls['passUser'].errors['pattern']">Characters not valid</div>
           </div>
           <button type="submit">Log In</button>
@@ -42,7 +42,7 @@
       <input formControlName="lastName" type="text" placeholder="Last Name">
       <div *ngIf="formControlsSignUp['lastName'].touched && formControlsSignUp['lastName'].invalid" class="alert-form">
         <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['minlength']">The last name must have a minimum of 2 characters.</div>
-        <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+        <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['maxlength']">The last name must have a maximum of 80 characters.</div>
         <div *ngIf="formControlsSignUp['lastName'].errors && formControlsSignUp['lastName'].errors['pattern']">Invalid last name</div>
       </div>
       <input formControlName="mailSignUp" type="email" placeholder="Email Address*">
@@ -54,9 +54,9 @@
       </div>
       <input formControlName="passUserSignUp" type="password" placeholder="Password*">
         <div *ngIf="formControlsSignUp['passUserSignUp'].touched && formControlsSignUp['passUserSignUp'].invalid" class="alert-form">
-          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['required']">Email is required.</div>
-          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['minlength']">The email must have a minimum of 5 characters.</div>
-          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['maxlength']">The email must have a maximum of 80 characters.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['required']">Password is required.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['minlength']">The password must have a minimum of 6 characters.</div>
+          <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['maxlength']">The password must have a maximum of 20 characters.</div>
           <div *ngIf="formControlsSignUp['passUserSignUp'].errors && formControlsSignUp['passUserSignUp'].errors['pattern']">Characters not valid</div>
         </div>
       <button type="submit">Get started</button>

@@ -3,7 +3,7 @@
 
     class User {
 
-        const REG_EXPR_STRING_WITH_SPACES = '/^[\w]+( [\w]+)*$/';
+        const REG_EXPR_STRING_WITH_SPACES = '/^[a-zA-ZÀ-ÿ]+(\s*[a-zA-ZÀ-ÿ]*)*[a-zA-ZÀ-ÿ ]+$/';
         const STRINGS_TO_VERIFY = [
             'name_user' => [
                 self::REG_EXPR_STRING_WITH_SPACES,
@@ -21,7 +21,7 @@
                 5
             ],
             'pass_user' => [
-                self::REG_EXPR_STRING_WITH_SPACES,
+                '/^[\w]+( [\w]+)*$/',
                 20,
                 6
             ],

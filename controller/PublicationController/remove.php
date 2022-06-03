@@ -15,7 +15,8 @@
             $idUser = processToken($_POST['session_token']);
             $publication = PublicationCRUD::select($_POST['id']);
             $publicationArray = $publication -> getAttributes();
-            if (gettype(CommunityCRUD::isAdmin($idUser,$publicationArray['id_community'])) == "integer" && ($publicationArray['id_user'] == $idUser)) {
+            if (gettype(CommunityCRUD::isAdmin($idUser,$publicationArray['id_community'])) == "integer" 
+                    && ($publicationArray['id_user'] == $idUser)) {
                 sendJsonSucess(PublicationCRUD::remove($publicationArray['id']));
             }
         }

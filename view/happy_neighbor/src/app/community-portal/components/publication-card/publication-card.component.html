@@ -44,7 +44,7 @@
             <em class="bi bi-chat-left"></em>
           </button>
           <span class="like">
-            <button class="btn-comment-prs icon" *ngIf="liked; else unliked" (click)="removeLike()">
+            <button class="btn-comment-prs icon like-heart" *ngIf="liked; else unliked" (click)="removeLike()">
               <em class="bi bi-heart-fill"></em>
             </button>
             <span>{{publication.likes}}</span>
