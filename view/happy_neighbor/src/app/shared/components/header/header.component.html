@@ -1,9 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">HappyNeighbor <span *ngIf="user.id > 0" class="d-inline-block d-lg-none text-white-50 id-user-prs">ID: #{{user.id}}</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="d-flex">
+      <button class="button-img-user-prs button-color-red-prs d-block d-lg-none" type="button" (click)="logOut()">
+        <em class="bi bi-box-arrow-left"></em>
+      </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -16,8 +21,12 @@
           <span class="nav-link disabled">Your ID: #{{user.id}}</span>
         </li>
       </ul>
-      <div>
-        <button class="button-img-user-prs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMailBox" aria-controls="offcanvasMailBox">
+      <div class="d-lg-flex gap-5">
+        <button class="button-img-user-prs button-color-red-prs d-none d-lg-block" type="button" (click)="logOut()">
+          <em class="bi bi-box-arrow-left"></em>
+          <span class=" d-lg-none">Log Out</span>
+        </button>
+        <button class="button-img-user-prs button-color-secundary-prs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMailBox" aria-controls="offcanvasMailBox">
           <em class="bi bi-mailbox2"></em>
           <span class=" d-lg-none">Mail-Box</span>
         </button>

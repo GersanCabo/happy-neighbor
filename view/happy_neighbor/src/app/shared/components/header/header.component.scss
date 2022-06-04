@@ -15,10 +15,22 @@
   display: flex;
   align-items: center;
   column-gap: 10px;
-  color: $color-secundary;
   em {
     font-size: 30px;
+  }
+}
+
+.button-color-secundary-prs {
+  color: $color-secundary;
+  em {
     color: $color-secundary;
+  }
+}
+
+.button-color-red-prs {
+  color: $color-secundary;
+  em {
+    color: rgb(247, 88, 88);
   }
 }
 

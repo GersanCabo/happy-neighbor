@@ -98,10 +98,15 @@ export class HeaderComponent implements OnInit {
           }
           this.sendedRequests.push(community);
         });
-        console.log(this.receivedInvitations);
       },
       error: (errorSelectRequests) => console.log(errorSelectRequests)
     });
+  }
+
+  logOut() {
+    sessionStorage.clear();
+    this.sessionToken = null;
+    this.ngOnInit();
   }
 
 }
