@@ -1,44 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">HappyNeighbor <span *ngIf="user.id > 0" class="d-inline-block d-lg-none text-white-50 id-user-prs">ID: #{{user.id}}</span></a>
-    <div class="d-flex">
-      <button class="button-img-user-prs button-color-red-prs d-block d-lg-none" type="button" (click)="logOut()">
-        <em class="bi bi-box-arrow-left"></em>
-      </button>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <div class="btn-nav-prs order-lg-1">
+      <button class="d-flex align-items-center border-0 bg-transparent btn-notifications-prs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
+        <em class="bi bi-bell-fill d-flex align-items-center"></em>
       </button>
     </div>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="d-flex order-lg-0 me-lg-auto">
+      <a class="navbar-brand me-0 me-lg-3" href="#">HappyNeighbor</a>
+    </div>
+    <div class="btn-nav-prs d-flex justify-content-end order-lg-2">
+      <button class="navbar-toggler border-0 d-flex align-items-center gap-1 ms-lg-2 btn-user-img-prs" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fpluspng.com%2Fimg-png%2Fpng-user-icon-circled-user-icon-2240.png&f=1&nofb=1" alt="Stock photo user">
+        <em class="bi bi-caret-down-fill d-flex align-items-center"></em>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse order-lg-3" id="navbarNav">
+      <hr>
+      <ul class="navbar-nav mt-2">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Communities</a>
+          <a class="nav-link active" aria-current="page" href="#">Your Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">Configuration</a>
-        </li>
-        <li *ngIf="user.id > 0" class="nav-item d-none d-lg-inline">
-          <span class="nav-link disabled">Your ID: #{{user.id}}</span>
+          <button class="border-0 bg-transparent nav-link active" type="button" (click)="logOut()">Log Out</button>
         </li>
       </ul>
-      <div class="d-lg-flex gap-5">
-        <button class="button-img-user-prs button-color-red-prs d-none d-lg-block" type="button" (click)="logOut()">
-          <em class="bi bi-box-arrow-left"></em>
-          <span class=" d-lg-none">Log Out</span>
-        </button>
-        <button class="button-img-user-prs button-color-secundary-prs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMailBox" aria-controls="offcanvasMailBox">
-          <em class="bi bi-mailbox2"></em>
-          <span class=" d-lg-none">Mail-Box</span>
-        </button>
-      </div>
     </div>
   </div>
 </nav>
 
 <!--OffCanvas-->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMailBox" aria-labelledby="offcanvasMailBoxLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile" aria-labelledby="offcanvasProfileLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasMailBoxLabel">Mail Box</h5>
+    <h5 class="offcanvas-title" id="offcanvasProfileLabel">Mail Box</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">

@@ -3,20 +3,33 @@
 //Bootstrap
 .navbar {
   background-color: $color-primary !important;
+  .btn-nav-prs {
+    min-width: 80px;
+    button {
+      padding: 0px 8px;
+    }
+  }
 }
 
 .dropstart::marker {
   font-size: 0px;
 }
 
-.button-img-user-prs {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
+.btn-notifications-prs {
   em {
-    font-size: 30px;
+    font-size: 1.5rem;
+    color: $color-secundary;
+  }
+}
+
+.btn-user-img-prs {
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  em {
+    font-size: 1rem;
+    color: $color-secundary;
   }
 }
 
